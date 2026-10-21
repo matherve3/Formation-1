@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MON DRÔLE PARCOURS CYBER — Niveau 1</title>
+<style>
+/* ==================== RESET & BASE ==================== */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070b14;
+  --bg2:#0d1424;
+  --card:#111a2e;
+  --card2:#0f1729;
+  --line:#1e2a44;
+  --line2:#2a3a5c;
+  --txt:#e8eef7;
+  --txt2:#94a3b8;
+  --txt3:#64748b;
+  --cyan:#00d4ff;
+  --cyan2:#5ee0ff;
+  --green:#22c55e;
+  --green2:#4ade80;
+  --gold:#fbbf24;
+  --purple:#a78bfa;
+  --red:#ef4444;
+  --shadow:0 8px 32px rgba(0,0,0,.35)
+}
+body{
+  font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
+  background:linear-gradient(180deg,#070b14 0%,#0a1220 100%);
+  color:var(--txt);line-height:1.7;
+  font-size:15px;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+@media(min-width:768px){body{font-size:16px}}
+h1,h2,h3,h4{line-height:1.3;font-weight:700}
+h2{font-size:1.5rem;color:var(--txt);margin-bottom:14px}
+h3{font-size:1.15rem;color:var(--green2);margin:22px 0 10px}
+h4{font-size:1rem;color:var(--cyan2);margin:16px 0 8px}
+p{margin:12px 0;color:#cbd5e1}
+ul,ol{padding-left:24px;margin:12px 0}
+li{margin-bottom:8px;color:#cbd5e1}
+strong{color:var(--gold);font-weight:700}
+em{color:var(--green2);font-style:normal;font-weight:600}
+code{
+  background:#0a1220;padding:2px 8px;border-radius:5px;
+  color:var(--cyan);font-size:.88em;font-family:'JetBrains Mono','Monaco',monospace;
+  border:1px solid var(--line)
+}
+pre{
+  background:#050914;padding:14px;border-radius:8px;overflow-x:auto;
+  font-size:.82em;margin:14px 0;color:var(--cyan2);
+  border:1px solid var(--line);line-height:1.6
+}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+button{
+  background:linear-gradient(135deg,var(--cyan) 0%,#0098c4 100%);
+  color:#04121b;border:none;padding:12px 22px;border-radius:10px;
+  font-weight:700;cursor:pointer;font-size:.92rem;
+  transition:all .15s ease;font-family:inherit;
+  box-shadow:0 4px 12px rgba(0,212,255,.2)
+}
+button:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,212,255,.35)}
+button:active{transform:translateY(0)}
+button.sec{background:#1a2540;color:var(--txt);box-shadow:none;border:1px solid var(--line2)}
+button.sec:hover{background:#232f4d;box-shadow:none}
+button.green{background:linear-gradient(135deg,var(--green) 0%,#16a34a 100%);color:#052e16}
+button.gold{background:linear-gradient(135deg,var(--gold) 0%,#d97706 100%);color:#1a1200}
+button.red{background:linear-gradient(135deg,var(--red) 0%,#b91c1c 100%);color:#fff}
+button.print{background:linear-gradient(135deg,var(--purple) 0%,#7c3aed 100%);color:#fff}
+
+/* ==================== HEADER ==================== */
+header{
+  background:rgba(13,20,36,.85);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  padding:16px 24px;
+  border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap
+}
+.logo{
+  display:flex;align-items:center;gap:12px;cursor:pointer;
+  font-size:1rem;font-weight:800;letter-spacing:.3px
+}
+.logo .mark{
+  width:34px;height:34px;border-radius:9px;
+  background:linear-gradient(135deg,var(--cyan) 0%,#0098c4 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;box-shadow:0 4px 16px rgba(0,212,255,.35)
+}
+.logo .name{color:var(--txt)}
+.logo .name span{color:var(--cyan)}
+.hs{
+  display:flex;align-items:center;gap:14px;
+  font-size:.82rem;color:var(--txt2);flex-wrap:wrap
+}
+.hs .pill{
+  background:#0f1729;padding:6px 12px;border-radius:20px;
+  border:1px solid var(--line);font-weight:600
+}
+.hs .pill b{color:var(--cyan)}
+.hs .logout{
+  cursor:pointer;color:var(--red);font-weight:700;
+  padding:6px 12px;border-radius:8px;transition:background .15s
+}
+.hs .logout:hover{background:rgba(239,68,68,.1);text-decoration:none}
+
+/* ==================== LAYOUT ==================== */
+main{max-width:1040px;margin:0 auto;padding:24px 16px 60px}
+@media(min-width:768px){main{padding:32px 24px 60px}}
+.card{
+  background:linear-gradient(180deg,var(--card) 0%,var(--card2) 100%);
+  border-radius:16px;padding:26px;margin-bottom:20px;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow)
+}
+@media(max-width:640px){.card{padding:20px}}
+.crumb{
+  font-size:.85rem;color:var(--txt3);margin-bottom:18px;
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap
+}
+.crumb a{color:var(--cyan);cursor:pointer}
+
+/* ==================== ENCADRÉS PÉDAGOGIQUES ==================== */
+.intro{
+  background:linear-gradient(135deg,#0c2a44 0%,#082032 100%);
+  padding:18px;border-radius:12px;margin:16px 0;
+  border-left:4px solid var(--cyan);
+  font-style:italic;color:#b8d4e8;font-size:1.02em
+}
+.analogy{
+  background:linear-gradient(135deg,#0d3b4a 0%,#082832 100%);
+  padding:16px;border-radius:12px;margin:16px 0;
+  border-left:4px solid #22d3ee;color:#a5d8e5
+}
+.bank{
+  background:linear-gradient(135deg,#0d3a1f 0%,#052e16 100%);
+  padding:16px;border-radius:10px;margin:16px 0;
+  border-left:4px solid var(--green2);color:#b5e8c8
+}
+.pr{
+  background:linear-gradient(135deg,#0a3a1a 0%,#052e16 100%);
+  padding:16px;border-radius:12px;margin:16px 0;
+  border-left:4px solid var(--green);color:#a7f3c4
+}
+.er{
+  background:linear-gradient(135deg,#3a0f0f 0%,#2a0808 100%);
+  padding:16px;border-radius:10px;margin:16px 0;
+  border-left:4px solid var(--red);color:#f4c4c4
+}
+.df{
+  background:linear-gradient(135deg,#3a2a0a 0%,#2a1f06 100%);
+  padding:16px;border-radius:10px;margin:16px 0;
+  border-left:4px solid var(--gold);color:#f5e3a8
+}
+
+/* ==================== SVG ==================== */
+.svg-box{
+  background:#050914;border-radius:12px;padding:20px;
+  margin:18px 0;text-align:center;border:1px solid var(--line)
+}
+.svg-box svg{max-width:100%;height:auto;display:block;margin:0 auto}
+
+/* ==================== TABLES ==================== */
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.9em}
+th{
+  background:#0f1729;color:var(--cyan);padding:10px;
+  text-align:left;border:1px solid var(--line);font-weight:700
+}
+td{border:1px solid var(--line);padding:10px;color:#cbd5e1}
+
+/* ==================== QUIZ ==================== */
+.quiz{
+  background:#0a1220;padding:20px;border-radius:12px;
+  margin-top:16px;border:1px solid var(--line)
+}
+.q{
+  margin-bottom:20px;padding:14px;background:var(--card2);
+  border-radius:10px;border:1px solid var(--line)
+}
+.q>p:first-child{
+  font-weight:600;margin-bottom:12px;color:#e8eef7;
+  font-size:.98rem
+}
+.q label{
+  display:block;padding:11px 14px;margin:6px 0;
+  background:#111827;border-radius:8px;cursor:pointer;
+  border:1.5px solid transparent;transition:all .15s;
+  color:#cbd5e1;font-size:.92rem
+}
+.q label:hover{background:#1a2540;border-color:var(--line2)}
+.q input{margin-right:10px;accent-color:var(--cyan)}
+.ok{background:rgba(34,197,94,.15)!important;border-color:var(--green)!important;color:#a7f3c4!important}
+.ko{background:rgba(239,68,68,.15)!important;border-color:var(--red)!important;color:#fca5a5!important}
+.exp{
+  background:#050914;padding:12px;border-radius:8px;
+  margin-top:10px;font-size:.86em;color:#cbd5e1;
+  border-left:3px solid var(--gold);display:none
+}
+.res{
+  margin-top:16px;padding:16px;border-radius:10px;
+  font-weight:700;text-align:center;font-size:.98rem
+}
+.res.g{background:rgba(34,197,94,.15);color:#a7f3c4;border:1px solid var(--green)}
+.res.r{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid var(--red)}
+
+/* ==================== NAV & BUTTONS ==================== */
+.nav{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap}
+
+/* ==================== GRILLE DÉFIS ==================== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:12px;margin-top:16px
+}
+.btn{
+  background:var(--card2);padding:16px;border-radius:12px;
+  cursor:pointer;border:2px solid transparent;text-align:left;
+  transition:all .18s ease;box-shadow:0 2px 8px rgba(0,0,0,.2)
+}
+.btn:hover{border-color:var(--cyan);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,212,255,.15)}
+.btn.done{border-color:var(--green);background:linear-gradient(135deg,#0d3a1f 0%,#052e16 100%)}
+.btn .n{
+  font-weight:800;color:var(--cyan);display:block;
+  font-size:.7rem;text-transform:uppercase;letter-spacing:1px
+}
+.btn.done .n{color:var(--green2)}
+.btn .ti{
+  display:block;font-size:.92rem;color:var(--txt);
+  margin-top:6px;font-weight:600;line-height:1.4
+}
+
+/* ==================== STATS ==================== */
+.stats-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:14px;margin:18px 0
+}
+.stat{
+  background:linear-gradient(135deg,#111a2e 0%,#0d1424 100%);
+  padding:20px;border-radius:14px;border:1px solid var(--line);
+  text-align:center;position:relative;overflow:hidden
+}
+.stat::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--cyan),var(--green))
+}
+.stat .big{
+  font-size:2.2em;font-weight:800;
+  background:linear-gradient(135deg,var(--cyan),var(--green));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;display:block;line-height:1.1
+}
+.stat .lbl{font-size:.78em;color:var(--txt2);margin-top:6px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.progress-bar{
+  background:#0a1220;height:8px;border-radius:4px;
+  overflow:hidden;margin:14px 0;border:1px solid var(--line)
+}
+.progress-bar>div{
+  height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));
+  border-radius:4px;transition:width .5s ease
+}
+
+/* ==================== LOGIN ==================== */
+.login-box{
+  max-width:420px;margin:60px auto;background:linear-gradient(180deg,var(--card) 0%,var(--card2) 100%);
+  padding:36px;border-radius:20px;border:1px solid var(--line);
+  box-shadow:0 20px 60px rgba(0,0,0,.5)
+}
+.login-box h2{text-align:center;margin-bottom:8px;font-size:1.6rem}
+.login-box .sub{
+  text-align:center;color:var(--txt2);font-size:.88rem;
+  margin-bottom:26px;line-height:1.6
+}
+.login-box input{
+  width:100%;padding:14px 16px;margin:8px 0;
+  background:#0a1220;border:1.5px solid var(--line);
+  border-radius:10px;color:var(--txt);font-size:.95rem;
+  font-family:inherit;transition:border-color .15s
+}
+.login-box input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,.1)}
+.login-box button{width:100%;margin-top:14px;padding:14px}
+
+/* ==================== CERTIFICAT ==================== */
+.cert-wrapper{
+  background:#0a1220;padding:30px;border-radius:16px;
+  border:1px solid var(--line);margin:20px 0
+}
+.cert-locked{
+  text-align:center;padding:50px 20px;
+  background:linear-gradient(135deg,#0d1424,#0a1220);
+  border-radius:16px;border:2px dashed var(--line2)
+}
+.cert-locked .icon{font-size:4em;margin-bottom:16px;opacity:.6}
+.cert-locked h3{color:var(--gold);font-size:1.3rem;margin:0 0 8px}
+.cert-locked p{color:var(--txt2);max-width:400px;margin:8px auto}
+.cert-locked .progress-small{
+  width:200px;height:6px;background:#0a1220;border-radius:3px;
+  margin:16px auto;overflow:hidden;border:1px solid var(--line)
+}
+.cert-locked .progress-small>div{
+  height:100%;background:linear-gradient(90deg,var(--gold),#d97706);border-radius:3px
+}
+
+.certificate{
+  background:linear-gradient(135deg,#0a1628 0%,#0d1f3a 50%,#0a1628 100%);
+  padding:40px 30px;border-radius:16px;
+  border:3px double var(--gold);
+  position:relative;overflow:hidden;text-align:center;
+  box-shadow:0 20px 60px rgba(251,191,36,.1);
+  color:#e8eef7
+}
+.certificate::before,.certificate::after{
+  content:'';position:absolute;width:80px;height:80px;
+  border:2px solid var(--gold);opacity:.4
+}
+.certificate::before{top:16px;left:16px;border-right:none;border-bottom:none;border-top-left-radius:16px}
+.certificate::after{bottom:16px;right:16px;border-left:none;border-top:none;border-bottom-right-radius:16px}
+.certificate .seal{
+  width:80px;height:80px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),#d97706);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.2rem;margin:0 auto 20px;
+  box-shadow:0 8px 24px rgba(251,191,36,.4);
+  border:3px solid #fde68a
+}
+.certificate .subtitle{
+  color:var(--gold);font-size:.8rem;letter-spacing:3px;
+  text-transform:uppercase;font-weight:800;margin-bottom:8px
+}
+.certificate .title{
+  font-family:'Georgia','Times New Roman',serif;
+  font-size:1.6rem;font-weight:700;color:#fde68a;
+  margin:8px 0 20px;letter-spacing:.5px
+}
+.certificate .certifies{
+  color:#94a3b8;font-size:.9rem;margin:16px 0 8px;
+  font-style:italic
+}
+.certificate .name{
+  font-family:'Georgia','Times New Roman',serif;
+  font-size:2rem;font-weight:700;
+  color:#fff;letter-spacing:1px;
+  padding:16px 0;border-bottom:2px solid var(--gold);
+  border-top:2px solid var(--gold);margin:12px auto 20px;
+  max-width:400px;line-height:1.2
+}
+.certificate .level-title{
+  font-size:1.15rem;font-weight:700;color:var(--green2);
+  margin:16px 0 8px
+}
+.certificate .details{
+  display:flex;justify-content:center;gap:30px;
+  flex-wrap:wrap;margin:24px 0 20px;
+  font-size:.85rem;color:#94a3b8
+}
+.certificate .details div{text-align:center}
+.certificate .details strong{color:var(--cyan);display:block;font-size:1rem;margin-top:4px}
+.certificate .cert-id{
+  font-family:'JetBrains Mono','Monaco',monospace;
+  font-size:.72rem;color:#64748b;
+  padding:10px;background:rgba(0,0,0,.3);border-radius:6px;
+  display:inline-block;margin-top:16px
+}
+.certificate .signature{
+  margin-top:30px;display:flex;justify-content:space-between;
+  align-items:flex-end;flex-wrap:wrap;gap:20px
+}
+.certificate .signature-block{
+  text-align:center;flex:1;min-width:160px
+}
+.certificate .sig-line{
+  border-top:1px solid #94a3b8;padding-top:8px;
+  font-size:.8rem;color:#94a3b8;margin-top:30px
+}
+.certificate .sig-name{
+  font-family:'Georgia',serif;font-style:italic;
+  color:var(--gold);font-size:1.1rem
+}
+
+/* ==================== CV PROFESSIONNEL ==================== */
+.cv-actions{
+  display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px
+}
+.cv-container{
+  background:#fff;color:#1a1a1a;border-radius:12px;
+  padding:0;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.3)
+}
+.cv-page{
+  padding:40px 44px;font-family:'Inter','Segoe UI',sans-serif;
+  line-height:1.55;max-width:820px;margin:0 auto
+}
+.cv-header{
+  border-bottom:3px solid #0c4a6e;padding-bottom:20px;
+  margin-bottom:24px;display:flex;justify-content:space-between;
+  align-items:flex-start;flex-wrap:wrap;gap:16px
+}
+.cv-header .left h1{
+  font-size:2rem;font-weight:800;color:#0c4a6e;
+  letter-spacing:-.5px;line-height:1.1;margin-bottom:4px
+}
+.cv-header .left .role{
+  color:#0369a1;font-size:1.05rem;font-weight:600;
+  margin-bottom:8px
+}
+.cv-header .left .objective{
+  color:#475569;font-size:.88rem;max-width:400px;
+  line-height:1.5;font-style:italic
+}
+.cv-header .right{
+  text-align:right;font-size:.85rem;color:#334155;
+  line-height:1.8
+}
+.cv-header .right b{color:#0c4a6e}
+.cv-section{margin-bottom:26px;page-break-inside:avoid}
+.cv-section h2{
+  font-size:.95rem;font-weight:800;color:#0c4a6e;
+  text-transform:uppercase;letter-spacing:1.2px;
+  border-bottom:1.5px solid #cbd5e1;padding-bottom:6px;
+  margin-bottom:14px;display:flex;align-items:center;gap:8px
+}
+.cv-section h2::before{
+  content:'';width:4px;height:16px;background:#0c4a6e;
+  border-radius:2px;display:inline-block
+}
+.cv-item{margin-bottom:14px}
+.cv-item .line1{
+  display:flex;justify-content:space-between;
+  align-items:baseline;flex-wrap:wrap;gap:8px;
+  margin-bottom:4px
+}
+.cv-item .title{font-weight:700;color:#0f172a;font-size:.98rem}
+.cv-item .date{font-size:.82rem;color:#64748b;font-weight:600}
+.cv-item .org{color:#0369a1;font-size:.88rem;font-weight:600;margin-bottom:4px}
+.cv-item .desc{font-size:.88rem;color:#475569;line-height:1.6}
+.cv-item .desc li{margin-bottom:4px}
+
+.skills-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;margin-top:8px
+}
+.skill{
+  font-size:.88rem;margin-bottom:8px
+}
+.skill .name{
+  display:flex;justify-content:space-between;
+  font-weight:600;color:#1e293b;margin-bottom:4px
+}
+.skill .bar{
+  height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden
+}
+.skill .bar>div{
+  height:100%;background:linear-gradient(90deg,#0c4a6e,#0369a1);
+  border-radius:3px
+}
+
+.cv-badges{
+  display:flex;flex-wrap:wrap;gap:6px;margin-top:8px
+}
+.cv-badge{
+  padding:4px 10px;background:#e0f2fe;color:#0c4a6e;
+  border-radius:12px;font-size:.78rem;font-weight:700;
+  border:1px solid #bae6fd
+}
+.cv-badge.gold{background:#fef3c7;color:#92400e;border-color:#fde68a}
+.cv-badge.green{background:#dcfce7;color:#166534;border-color:#bbf7d0}
+
+.cv-footer{
+  margin-top:30px;padding-top:16px;
+  border-top:1px solid #e2e8f0;
+  font-size:.72rem;color:#94a3b8;text-align:center
+}
+
+/* ==================== CERTIFICATIONS & JOBS ==================== */
+.tabs{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}
+.tab{
+  padding:9px 18px;background:var(--card2);border-radius:10px;
+  cursor:pointer;font-size:.86em;font-weight:600;color:var(--txt2);
+  border:1.5px solid transparent;transition:all .15s
+}
+.tab.active{background:linear-gradient(135deg,var(--cyan),#0098c4);color:#04121b;font-weight:700}
+.tab:hover:not(.active){border-color:var(--cyan)}
+
+.certs-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  gap:14px;margin-top:16px
+}
+.cert-item{
+  background:var(--card2);padding:18px;border-radius:12px;
+  border-left:4px solid var(--cyan);
+  display:flex;flex-direction:column;transition:transform .15s
+}
+.cert-item:hover{transform:translateY(-2px)}
+.cert-item.free{border-left-color:var(--green)}
+.cert-item.paid{border-left-color:var(--gold)}
+.cert-item h4{margin:0 0 6px;font-size:.95em;color:var(--txt);line-height:1.35}
+.cert-item .org{font-size:.75em;color:var(--txt2);margin-bottom:10px}
+.cert-item .tag{
+  display:inline-block;padding:3px 9px;border-radius:20px;
+  font-size:.68em;font-weight:700;margin-right:4px;margin-bottom:4px
+}
+.cert-item .tag.free{background:rgba(34,197,94,.15);color:#86efac}
+.cert-item .tag.paid{background:rgba(251,191,36,.15);color:#fde68a}
+.cert-item .tag.lvl{background:rgba(59,130,246,.15);color:#93c5fd}
+.cert-item .tag.req{background:rgba(168,85,247,.15);color:#d8b4fe}
+.cert-item p{font-size:.82em;color:#cbd5e1;margin:8px 0;flex:1;line-height:1.55}
+.cert-item .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.cert-item .actions a{
+  flex:1;text-align:center;padding:8px 12px;
+  background:#1a2540;color:var(--cyan);border-radius:8px;
+  font-size:.78em;font-weight:700;text-decoration:none;
+  border:1px solid var(--line2);transition:all .15s
+}
+.cert-item .actions a:hover{background:var(--cyan);color:#04121b}
+.cert-item .actions button{
+  padding:8px 12px;font-size:.78em;background:#1a2540;
+  color:var(--txt);border:1px solid var(--line2);box-shadow:none
+}
+.cert-item.done{background:linear-gradient(135deg,#0d3a1f,#052e16);border-left-color:var(--green)}
+.cert-item.done .actions button{background:var(--green);color:#052e16}
+
+.jobs-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  gap:14px;margin-top:16px
+}
+.job-item{
+  background:var(--card2);padding:18px;border-radius:12px;
+  border-left:4px solid var(--green);transition:transform .15s
+}
+.job-item:hover{transform:translateY(-2px)}
+.job-item h4{margin:0 0 6px;color:var(--green2);font-size:.95em}
+.job-item .job-org{font-size:.78em;color:var(--txt2);margin-bottom:8px}
+.job-item .job-desc{font-size:.83em;color:#cbd5e1;margin:8px 0;line-height:1.55}
+.job-item .job-link{
+  display:inline-block;padding:6px 14px;
+  background:#1a2540;color:var(--cyan);border-radius:8px;
+  font-size:.78em;font-weight:700;text-decoration:none;
+  margin-top:8px;border:1px solid var(--line2)
+}
+.job-item .job-link:hover{background:var(--cyan);color:#04121b}
+
+/* ==================== EXAMENS ==================== */
+.exam-card{
+  background:linear-gradient(135deg,#1e1b4b 0%,#0d1424 100%);
+  padding:20px;border-radius:14px;margin:14px 0;
+  border-left:4px solid var(--purple)
+}
+.exam-card h4{color:#ddd6fe;margin:0 0 8px;font-size:1.05rem}
+.exam-card.locked{
+  opacity:.55;border-left-color:#475569;
+  background:linear-gradient(135deg,#1a1f2e,#0d1424)
+}
+.exam-card.passed{
+  background:linear-gradient(135deg,#052e16,#031a0d);
+  border-left-color:var(--green)
+}
+.exam-card.passed h4{color:var(--green2)}
+
+/* ==================== SYNC ==================== */
+.sync-box{background:#0a1220;padding:18px;border-radius:12px;margin:14px 0;border:1px solid var(--line)}
+.sync-box textarea{
+  width:100%;min-height:110px;background:#050914;color:var(--cyan);
+  border:1px solid var(--line);border-radius:8px;padding:12px;
+  font-family:'JetBrains Mono',monospace;font-size:.72em;
+  resize:vertical;word-break:break-all;line-height:1.6
+}
+.sync-box label{display:block;margin:10px 0 6px;color:var(--txt2);font-size:.85em;font-weight:600}
+.sync-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+
+/* ==================== TODAY LIST ==================== */
+.today-list{list-style:none;padding:0;margin:12px 0}
+.today-list li{
+  padding:12px 14px;background:var(--card2);border-radius:8px;
+  margin-bottom:8px;border-left:3px solid var(--green);
+  font-size:.9em;color:#cbd5e1
+}
+
+/* ==================== FOOTER ==================== */
+footer{
+  text-align:center;padding:30px 20px;color:var(--txt3);
+  font-size:.82em;font-weight:600;letter-spacing:.5px;
+  border-top:1px solid var(--line);margin-top:40px
+}
+
+/* ==================== PRINT ==================== */
+@media print{
+  body{background:#fff!important;color:#000!important}
+  header,footer,main>.card:not(.printable),
+  .nav,.cv-actions,.cert-actions,
+  main>.card.printable>:not(.cert-wrapper):not(.cv-container){
+    display:none!important
+  }
+  main{padding:0!important;max-width:100%!important}
+  .card,.cert-wrapper{
+    background:#fff!important;border:none!important;
+    box-shadow:none!important;padding:0!important;margin:0!important
+  }
+  .cv-container,.certificate{
+    box-shadow:none!important;border-radius:0!important;
+    border:1px solid #ccc!important;page-break-after:always
+  }
+  .cv-page{padding:30px!important}
+  .certificate{padding:60px 40px!important;border:3px double #b45309!important}
+  .certificate .name,.certificate .title{color:#0c4a6e!important}
+  .certificate .subtitle,.certificate .sig-name{color:#b45309!important}
+  button{display:none!important}
+  a{color:#0369a1!important;text-decoration:none!important}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" onclick="go('home')">
+    <div class="mark">🛡️</div>
+    <div class="name">Mon <span>Drôle</span> Parcours Cyber</div>
+  </div>
+  <div class="hs" id="hs"></div>
+</header>
+<main id="app"></main>
+<footer>© H. N'GUESSAN ® — Mon Drôle Parcours Cyber · Niveau 1</footer>
+
+<script>
+/* ============================================================
+   SVG
+   ============================================================ */
+var SVG={
+PC:`<svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg"><rect x="140" y="20" width="220" height="150" fill="#1e293b" stroke="#00d4ff" stroke-width="2" rx="8"/><text x="250" y="42" fill="#00d4ff" text-anchor="middle" font-weight="bold" font-size="12">CARTE MERE</text><rect x="165" y="60" width="70" height="45" fill="#0c4a6e" stroke="#22c55e" stroke-width="2"/><text x="200" y="82" fill="#22c55e" text-anchor="middle" font-weight="bold" font-size="12">CPU</text><rect x="255" y="60" width="85" height="12" fill="#0c4a6e" stroke="#fbbf24"/><text x="297" y="69" fill="#fbbf24" text-anchor="middle" font-size="9">RAM</text><rect x="255" y="76" width="85" height="12" fill="#0c4a6e" stroke="#fbbf24"/><rect x="165" y="120" width="175" height="30" fill="#0c4a6e" stroke="#ef4444" stroke-width="2"/><text x="252" y="139" fill="#ef4444" text-anchor="middle" font-weight="bold" font-size="11">DISQUE</text></svg>`,
+CPU:`<svg viewBox="0 0 500 130" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="40" width="140" height="55" fill="#0c4a6e" stroke="#00d4ff" stroke-width="2" rx="6"/><text x="80" y="62" fill="#00d4ff" text-anchor="middle" font-weight="bold" font-size="12">1. FETCH</text><polygon points="155,67 170,60 170,74" fill="#22c55e"/><rect x="175" y="40" width="140" height="55" fill="#0c4a6e" stroke="#00d4ff" stroke-width="2" rx="6"/><text x="245" y="62" fill="#00d4ff" text-anchor="middle" font-weight="bold" font-size="12">2. DECODE</text><polygon points="320,67 335,60 335,74" fill="#22c55e"/><rect x="340" y="40" width="140" height="55" fill="#0c4a6e" stroke="#00d4ff" stroke-width="2" rx="6"/><text x="410" y="62" fill="#00d4ff" text-anchor="middle" font-weight="bold" font-size="12">3. EXECUTE</text></svg>`,
+RAM:`<svg viewBox="0 0 500 160" xmlns="http://www.w3.org/2000/svg"><rect x="30" y="20" width="210" height="120" fill="#052e16" stroke="#22c55e" stroke-width="2" rx="10"/><text x="135" y="45" fill="#22c55e" text-anchor="middle" font-weight="bold" font-size="13">RAM rapide</text><text x="135" y="70" fill="#86efac" text-anchor="middle" font-size="10">8-64 Go</text><text x="135" y="100" fill="#fbbf24" text-anchor="middle" font-size="11">Volatile</text><rect x="260" y="20" width="210" height="120" fill="#7f1d1d" stroke="#ef4444" stroke-width="2" rx="10"/><text x="365" y="45" fill="#ef4444" text-anchor="middle" font-weight="bold" font-size="13">DISQUE lent</text><text x="365" y="70" fill="#fca5a5" text-anchor="middle" font-size="10">500 Go-4 To</text><text x="365" y="100" fill="#fbbf24" text-anchor="middle" font-size="11">Permanent</text></svg>`,
+BIOS:`<svg viewBox="0 0 500 190" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="20" width="460" height="35" fill="#7f1d1d" stroke="#ef4444" stroke-width="2" rx="6"/><text x="250" y="42" fill="#fca5a5" text-anchor="middle" font-weight="bold" font-size="12">1. POWER ON - BIOS POST</text><polygon points="250,58 245,68 255,68" fill="#fbbf24"/><rect x="20" y="72" width="460" height="35" fill="#78350f" stroke="#fbbf24" stroke-width="2" rx="6"/><text x="250" y="94" fill="#fde68a" text-anchor="middle" font-weight="bold" font-size="12">2. Test materiel</text><polygon points="250,110 245,120 255,120" fill="#22c55e"/><rect x="20" y="124" width="460" height="35" fill="#052e16" stroke="#22c55e" stroke-width="2" rx="6"/><text x="250" y="146" fill="#86efac" text-anchor="middle" font-weight="bold" font-size="12">3. Bootloader - OS</text></svg>`,
+OS:`<svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg"><rect x="60" y="20" width="380" height="40" fill="#052e16" stroke="#22c55e" stroke-width="2" rx="6"/><text x="250" y="46" fill="#86efac" text-anchor="middle" font-weight="bold" font-size="12">APPLICATIONS</text><rect x="60" y="70" width="380" height="40" fill="#0c4a6e" stroke="#00d4ff" stroke-width="2" rx="6"/><text x="250" y="96" fill="#7dd3fc" text-anchor="middle" font-weight="bold" font-size="12">SHELL</text><rect x="60" y="120" width="380" height="40" fill="#7f1d1d" stroke="#ef4444" stroke-width="2" rx="6"/><text x="250" y="146" fill="#fca5a5" text-anchor="middle" font-weight="bold" font-size="12">KERNEL</text><rect x="60" y="170" width="380" height="20" fill="#1e293b" stroke="#94a3b8" rx="6"/><text x="250" y="185" fill="#cbd5e1" text-anchor="middle" font-size="10">MATERIEL</text></svg>`,
+FILES:`<svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg" font-family="monospace" font-size="12"><text x="20" y="25" fill="#00d4ff" font-weight="bold">cyber/</text><text x="40" y="45" fill="#94a3b8">labs/</text><text x="40" y="65" fill="#94a3b8">tools/</text><text x="40" y="85" fill="#94a3b8">notes/</text><text x="40" y="105" fill="#94a3b8">ctfs/</text><text x="40" y="125" fill="#94a3b8">reports/</text><text x="40" y="145" fill="#94a3b8">README.md</text></svg>`,
+KEYBOARD:`<svg viewBox="0 0 500 130" xmlns="http://www.w3.org/2000/svg"><rect x="20" y="35" width="105" height="32" fill="#1e293b" stroke="#00d4ff" rx="4"/><text x="72" y="55" fill="#00d4ff" text-anchor="middle" font-size="10">Ctrl+C</text><rect x="135" y="35" width="105" height="32" fill="#1e293b" stroke="#00d4ff" rx="4"/><text x="187" y="55" fill="#00d4ff" text-anchor="middle" font-size="10">Ctrl+V</text><rect x="250" y="35" width="105" height="32" fill="#1e293b" stroke="#00d4ff" rx="4"/><text x="302" y="55" fill="#00d4ff" text-anchor="middle" font-size="10">Ctrl+Z</text><rect x="365" y="35" width="105" height="32" fill="#1e293b" stroke="#fbbf24" rx="4"/><text x="417" y="55" fill="#fbbf24" text-anchor="middle" font-size="10">Win+L</text></svg>`,
+BACKUP:`<svg viewBox="0 0 500 130" xmlns="http://www.w3.org/2000/svg"><circle cx="90" cy="75" r="38" fill="#0c4a6e" stroke="#00d4ff" stroke-width="2"/><text x="90" y="72" fill="#00d4ff" text-anchor="middle" font-weight="bold" font-size="22">3</text><text x="90" y="90" fill="#7dd3fc" text-anchor="middle" font-size="10">copies</text><circle cx="250" cy="75" r="38" fill="#052e16" stroke="#22c55e" stroke-width="2"/><text x="250" y="72" fill="#22c55e" text-anchor="middle" font-weight="bold" font-size="22">2</text><text x="250" y="90" fill="#86efac" text-anchor="middle" font-size="10">supports</text><circle cx="410" cy="75" r="38" fill="#78350f" stroke="#fbbf24" stroke-width="2"/><text x="410" y="72" fill="#fbbf24" text-anchor="middle" font-weight="bold" font-size="22">1</text><text x="410" y="90" fill="#fde68a" text-anchor="middle" font-size="10">hors site</text></svg>`,
+PERMS:`<svg viewBox="0 0 500 140" xmlns="http://www.w3.org/2000/svg"><text x="250" y="20" fill="#00d4ff" text-anchor="middle" font-weight="bold" font-size="12">-rwxr-xr-x (755)</text><text x="180" y="55" fill="#00d4ff" text-anchor="middle" font-weight="bold" font-size="14">rwx</text><text x="180" y="72" fill="#7dd3fc" text-anchor="middle" font-size="9">User (7)</text><text x="290" y="55" fill="#22c55e" text-anchor="middle" font-weight="bold" font-size="14">r-x</text><text x="290" y="72" fill="#86efac" text-anchor="middle" font-size="9">Group (5)</text><text x="400" y="55" fill="#fbbf24" text-anchor="middle" font-weight="bold" font-size="14">r-x</text><text x="400" y="72" fill="#fde68a" text-anchor="middle" font-size="9">Others (5)</text></svg>`,
+OSI:`<svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg"><rect x="80" y="24" width="340" height="22" fill="#7f1d1d" stroke="#ef4444" rx="3"/><text x="250" y="39" fill="#fca5a5" text-anchor="middle" font-size="10">7 Application</text><rect x="80" y="50" width="340" height="22" fill="#78350f" stroke="#fbbf24" rx="3"/><text x="250" y="65" fill="#fde68a" text-anchor="middle" font-size="10">6 Presentation</text><rect x="80" y="76" width="340" height="22" fill="#713f12" stroke="#fbbf24" rx="3"/><text x="250" y="91" fill="#fde68a" text-anchor="middle" font-size="10">5 Session</text><rect x="80" y="102" width="340" height="22" fill="#052e16" stroke="#22c55e" rx="3"/><text x="250" y="117" fill="#86efac" text-anchor="middle" font-size="10">4 Transport</text><rect x="80" y="128" width="340" height="22" fill="#0c4a6e" stroke="#00d4ff" rx="3"/><text x="250" y="143" fill="#7dd3fc" text-anchor="middle" font-size="10">3 Reseau</text><rect x="80" y="154" width="340" height="22" fill="#1e293b" stroke="#94a3b8" rx="3"/><text x="250" y="169" fill="#cbd5e1" text-anchor="middle" font-size="10">2 Liaison</text><rect x="80" y="180" width="340" height="16" fill="#0f172a" stroke="#94a3b8" rx="3"/><text x="250" y="192" fill="#cbd5e1" text-anchor="middle" font-size="9">1 Physique</text></svg>`
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+var KEY='mdpc_pro_v1';
+var state={currentUser:null,users:{}};
+function load(){try{var r=localStorage.getItem(KEY);if(r)state=Object.assign({},state,JSON.parse(r));}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}header();}
+function user(){if(!state.currentUser)return null;return state.users[state.currentUser]||null;}
+function newUser(n){return{name:n,defisDone:{},quizScores:{},certsDone:[],examens:{},jours:{},createdAt:new Date().toISOString().slice(0,10)};}
+function login(){
+  var el=document.getElementById('loginName');if(!el)return;
+  var n=el.value.trim();if(!n){alert('Entre ton prénom');return;}
+  var k=n.toLowerCase().replace(/\s+/g,'_');
+  if(!state.users[k])state.users[k]=newUser(n);
+  state.currentUser=k;save();go('home');
+}
+function logout(){state.currentUser=null;save();go('login');}
+function today(){return new Date().toISOString().slice(0,10);}
+
+/* ============================================================
+   SYNC
+   ============================================================ */
+function b64(s){try{return btoa(unescape(encodeURIComponent(s)));}catch(e){return '';}}
+function unb64(b){try{return decodeURIComponent(escape(atob(b.replace(/\s/g,''))));}catch(e){return null;}}
+function exportCode(){return b64(JSON.stringify(state));}
+function importCode(c){
+  var j=unb64(c.trim());if(!j)return false;
+  try{var d=JSON.parse(j);if(!d||typeof d!=='object')return false;state=Object.assign({},state,d);save();return true;}catch(e){return false;}
+}
+function dlBackup(){
+  var b=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  var u=URL.createObjectURL(b),a=document.createElement('a');
+  a.href=u;a.download='mdpc-n1-'+today()+'.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);
+}
+function readFile(input){
+  var f=input.files[0];if(!f)return;
+  var r=new FileReader();
+  r.onload=function(e){try{var d=JSON.parse(e.target.result);state=Object.assign({},state,d);save();alert('Restauré !');route();}catch(err){alert('Invalide');}};
+  r.readAsText(f);
+}
+
+/* ============================================================
+   NIVEAU 1 — 10 DÉFIS
+   ============================================================ */
+var NIVEAU1=[
+{id:1,svg:'PC',titre:"L'ordinateur et ses composants",
+intro:"Un ordinateur est comme une cuisine bien organisée : chaque élément a un rôle précis. Maîtriser ces composants est le B-A-BA de toute carrière en cybersécurité.",
+cours:`
+<h3>🧠 Les 4 piliers d'un ordinateur</h3>
+<p>Tout ordinateur — du smartphone au serveur bancaire — repose sur <strong>quatre piliers</strong> interconnectés par la carte mère.</p>
+
+<h4>1. Le processeur (CPU) — le chef cuisinier</h4>
+<p>Le <strong>CPU</strong> (<em>Central Processing Unit</em>) exécute toutes les instructions. Caractéristiques :</p>
+<ul>
+<li><strong>Fréquence (GHz)</strong> — 2.5 GHz = 2.5 milliards de cycles/seconde</li>
+<li><strong>Cœurs</strong> — 4 cœurs = 4 tâches vraiment parallèles</li>
+<li><strong>Cache L1/L2/L3</strong> — mémoire ultra-rapide intégrée</li>
+<li><strong>Jeu d'instructions</strong> — x86, ARM, avec parfois AES-NI pour le chiffrement</li>
+</ul>
+
+<h4>2. La mémoire vive (RAM) — le plan de travail</h4>
+<p>Stocke temporairement les données actives. <strong>Volatile</strong> : tout disparaît sans courant.</p>
+<ul>
+<li>Capacité : 4 à 64 Go (postes), jusqu'à 512 Go (serveurs)</li>
+<li>Vitesse : ~50 nanosecondes</li>
+<li>Type : DDR3, DDR4, DDR5 (non compatibles entre eux)</li>
+</ul>
+
+<h4>3. Le disque (HDD / SSD) — le garde-manger</h4>
+<ul>
+<li><strong>HDD</strong> — plateaux magnétiques, lent (~100 Mo/s), fragile, pas cher</li>
+<li><strong>SSD</strong> — Flash NAND, ultra rapide (~500 Mo/s à 7 Go/s), robuste, plus cher</li>
+</ul>
+
+<h4>4. La carte mère — la cuisine elle-même</h4>
+<p>Relie tout : socket CPU, slots RAM, ports SATA, PCIe, USB, Ethernet, puce BIOS/UEFI.</p>
+
+<div class="analogy">🧠 <strong>Analogie</strong> : carte mère = pièce. CPU = cuisinier. RAM = plan de travail. Disque = frigo. Si le plan de travail (RAM) est trop petit, le cuisinier perd du temps à aller au frigo (disque) et tout ralentit.</div>
+
+<div class="bank">🏦 <strong>Banque CI</strong> : postes clients 4-8 Go, serveurs centraux 128-512 Go. Distinguer les deux évite de confondre « mon PC rame » et « le serveur est saturé ».</div>
+
+<div class="df">⚠️ <strong>Sécurité physique</strong> : un attaquant avec accès physique peut voler la RAM (cold boot) pour récupérer des clés, ou débrancher le disque pour l'analyser. Connaître le matériel = connaître les surfaces d'attaque.</div>`,
+cas:`
+<h3>🔧 Cas 1 — Poste qui ne démarre pas (3 bips courts)</h3>
+<p><strong>Situation :</strong> une caissière appelle. PC ne s'allume pas, émet 3 bips courts, aucun logo.</p>
+<h4>Analyse</h4>
+<ul>
+<li>Écran noir + bips = échec du <strong>POST</strong> (Power-On Self-Test)</li>
+<li>3 bips courts = problème <strong>RAM</strong> (BIOS AMI/Award)</li>
+</ul>
+<h4>Résolution dans l'ordre</h4>
+<ol>
+<li>Vérifier câble d'alimentation</li>
+<li>Retirer/remettre les barrettes RAM (résout 60 % des cas)</li>
+<li>Tester les barrettes une par une</li>
+<li>Tester d'autres slots RAM</li>
+<li>Si rien → carte mère suspecte</li>
+</ol>
+<h4>Codes bips courants</h4>
+<table>
+<tr><th>Bips</th><th>Signification</th></tr>
+<tr><td>1 court</td><td>Normal</td></tr>
+<tr><td>2 courts</td><td>CMOS (pile BIOS)</td></tr>
+<tr><td>3 courts</td><td>RAM</td></tr>
+<tr><td>1 long + 1 court</td><td>Carte mère</td></tr>
+<tr><td>1 long + 2 courts</td><td>Carte graphique</td></tr>
+</table>
+<div class="df">⚠️ Ne jamais changer la carte mère avant d'avoir testé la RAM — c'est 5× plus cher et rarement la cause.</div>
+<div class="pr">✅ <strong>Réflexe cyber</strong> : avant toute intervention en banque → noter l'heure, photographier l'écran, débrancher le disque. Un incident « matériel » peut cacher un ransomware qui a chiffré le MBR.</div>
+
+<h3>🔧 Cas 2 — Keylogger matériel</h3>
+<p><strong>Situation :</strong> un employé signale un petit boîtier inconnu entre son clavier et son PC.</p>
+<h4>Que faire</h4>
+<ol>
+<li>Ne pas toucher (empreintes)</li>
+<li>Photographier</li>
+<li>Débrancher le PC du réseau</li>
+<li>Alerter la sécurité SI</li>
+<li>Changer tous les mots de passe saisis sur ce poste</li>
+</ol>
+
+<h3>🔧 Cas 3 — Écran noir sans bip</h3>
+<p>Vérifier dans l'ordre : écran (tester avec un autre), câble vidéo, carte graphique, RAM.</p>`,
+quiz:[
+{q:"Quel composant est volatil ?",o:["SSD","RAM","Carte mère","BIOS"],c:1,e:"La RAM perd tout sans courant."},
+{q:"3 bips courts = ?",o:["Disque","CPU","RAM","Écran"],c:2,e:"BIOS AMI/Award : 3 bips courts = RAM."},
+{q:"Poste client vs serveur RAM ?",o:["Économie","Peu de tâches simultanées","Inutile","Serveur n'en a pas"],c:1,e:"Le serveur traite des milliers de requêtes en parallèle."}
+]},
+
+{id:2,svg:'CPU',titre:"Le processeur et son cycle",
+intro:"Le CPU répète 3 étapes des milliards de fois par seconde. Comprendre ce cycle = comprendre les ralentissements.",
+cours:`
+<h3>⚙️ Cycle Fetch — Decode — Execute</h3>
+<h4>1. FETCH</h4>
+<p>Le CPU va chercher la prochaine instruction dans la RAM, à l'adresse indiquée par le <em>Program Counter</em>.</p>
+<h4>2. DECODE</h4>
+<p>L'unité de décodage traduit l'instruction binaire en action (addition, saut, comparaison...).</p>
+<h4>3. EXECUTE</h4>
+<p>L'ALU réalise l'action, écrit le résultat, incrémente le Program Counter.</p>
+
+<div class="analogy">🧠 Employé de banque : Fetch = prendre le dossier. Decode = lire la consigne. Execute = faire le virement. Puis on recommence.</div>
+
+<h4>📊 Unités</h4>
+<ul>
+<li><strong>Hz</strong> = 1 cycle/s</li>
+<li><strong>MHz</strong> = 1 million Hz</li>
+<li><strong>GHz</strong> = 1 milliard Hz (CPU modernes : 2-5 GHz)</li>
+</ul>
+
+<h4>🔀 Cœurs & threads</h4>
+<ul>
+<li><strong>Cœur physique</strong> — moteur indépendant</li>
+<li><strong>Thread</strong> — flux logique (Hyper-Threading/SMT)</li>
+<li>4 cœurs × 2 threads = 8 tâches visibles par l'OS</li>
+</ul>
+
+<h4>🔐 CPU et sécurité</h4>
+<ul>
+<li><strong>AES-NI</strong> — instructions de chiffrement AES (5-10× plus rapide)</li>
+<li><strong>Ring 0 à 3</strong> — niveaux de privilège (kernel=0, applications=3). Passer de 3 à 0 = élévation de privilèges = faille critique</li>
+<li><strong>Spectre/Meltdown/Downfall</strong> — failles micro-architecturales (2018-2023)</li>
+</ul>
+
+<div class="bank">🏦 <strong>Banque</strong> : serveurs SWIFT/GIM-UEMOA avec AES-NI. Sans ces instructions, un chiffrement TLS prendrait 5-10× plus de temps.</div>`,
+cas:`
+<h3>🔧 Cas 1 — PC rame sous WhatsApp Web</h3>
+<h4>Diagnostic</h4>
+<ol>
+<li>Ctrl+Shift+Échap → Performance</li>
+<li>CPU 100 % permanent = suspect</li>
+<li>RAM > 90 % = ajouter ou fermer des onglets</li>
+<li>Disque 100 % sur HDD = normal, passer au SSD</li>
+</ol>
+<div class="df">⚠️ CPU 100 % <em>après</em> la visio = suspect. Vérifier le processus gourmand.</div>
+<div class="er">❌ <strong>Cas réel 2023</strong> : cryptominer Monero dans des banques africaines — CPU bloqué à 100 % la nuit, facture électricité anormale.</div>
+
+<h3>🔧 Cas 2 — Détecter un cryptominer</h3>
+<ol>
+<li>CPU > 40 % au repos → suspect</li>
+<li>Trier les processus par CPU</li>
+<li>Clic droit → Ouvrir l'emplacement. Chemin bizarre (ex : <code>C:\\Users\\Public\\svchost.exe</code>) → malware</li>
+<li>Uploader le fichier sur <strong>VirusTotal</strong></li>
+<li>Scanner avec Malwarebytes + Defender hors ligne</li>
+</ol>
+
+<h3>🔧 Cas 3 — Antivirus qui ralentit tout</h3>
+<p>Normal lors du 1er scan complet (analyse temps réel + scan disque). Anormal si &gt; 1h. Solution : programmer les scans la nuit, exclure les dossiers système (jamais les utilisateurs).</p>`,
+quiz:[
+{q:"Ordre du cycle CPU ?",o:["Execute-Decode-Fetch","Fetch-Execute-Decode","Fetch-Decode-Execute","Decode-Fetch-Execute"],c:2,e:"Fetch, Decode, Execute."},
+{q:"4 cœurs + Hyper-Threading = ?",o:["2","4","8","16"],c:2,e:"4 × 2 = 8 threads."},
+{q:"CPU 100 % sans activité ?",o:["Écran","Malware","RAM","Câble"],c:1,e:"Cryptominer le plus probable."}
+]},
+
+{id:3,svg:'RAM',titre:"RAM vs Disque",
+intro:"Confondre RAM et disque est la source n°1 de malentendus. Une RAM pleine plante tout.",
+cours:`
+<h3>💾 RAM vs Disque</h3>
+<table>
+<tr><th>Critère</th><th>RAM</th><th>Disque</th></tr>
+<tr><td>Rôle</td><td>Travail</td><td>Stockage</td></tr>
+<tr><td>Volatilité</td><td>Oui</td><td>Non</td></tr>
+<tr><td>Vitesse</td><td>~50 ns</td><td>~100 µs</td></tr>
+<tr><td>Capacité</td><td>8-64 Go</td><td>500 Go-4 To</td></tr>
+<tr><td>Coût/Go</td><td>~3 000 FCFA</td><td>~30 FCFA</td></tr>
+</table>
+
+<div class="analogy">🧠 RAM = bureau de travail. Disque = armoire. Bureau encombré → allers-retours constants = lenteur.</div>
+
+<h4>🔄 RAM pleine ?</h4>
+<p>Le système utilise le disque comme RAM de secours : <strong>swap</strong> (Linux) ou fichier d'échange (Windows). Le disque est 1000× plus lent → lenteur extrême (« swap thrashing »).</p>
+
+<h4>🧪 Voir la consommation</h4>
+<ul>
+<li><strong>Windows</strong> : Ctrl+Shift+Échap → Performance</li>
+<li><strong>Linux</strong> : <code>free -h</code>, <code>top</code>, <code>htop</code></li>
+<li><strong>macOS</strong> : Moniteur d'activité</li>
+</ul>
+
+<h4>🔐 Sécurité de la RAM</h4>
+<p>La RAM contient mots de passe, clés, cookies, données bancaires. Un attaquant admin peut faire un <strong>dump mémoire</strong>. Solution : HSM (Hardware Security Module), Secure Enclave pour isoler les secrets.</p>
+
+<div class="bank">🏦 Logiciels métier (GIM-UEMOA, SWIFT, Core Banking) = 2-4 Go chacun. Poste 4 Go = swap immédiat. Recommandation DSI : 8 Go minimum.</div>`,
+cas:`
+<h3>🔧 Cas 1 — Chrome 50 onglets</h3>
+<p>Chaque onglet = 100-300 Mo. 50 onglets ≈ 10 Go. Sur PC 8 Go → swap → tout ralentit.</p>
+<h4>Pourquoi isoler ?</h4>
+<ul>
+<li><strong>Sandbox</strong> — un onglet compromis ne lit pas les autres</li>
+<li><strong>Stabilité</strong> — un onglet plante, les autres survivent</li>
+</ul>
+<div class="pr">✅ <strong>Astuces</strong> : mode Économiseur, fermer les onglets, uBlock Origin (-30 à 50 % mémoire), Tiny Suspender.</div>
+<div class="er">❌ <strong>Cryptojacking</strong> — un onglet mine de la crypto en JS. Symptôme : CPU+RAM qui grimpent sur un site précis.</div>
+
+<h3>🔧 Cas 2 — RAM ou SSD ?</h3>
+<ol>
+<li>RAM > 85 % en permanence → ajouter RAM</li>
+<li>Disque 100 % en permanence sur HDD → passer au SSD</li>
+<li>Les deux saturés → les deux</li>
+</ol>
+<p>Prix Abidjan : RAM 8 Go ≈ 30 000 FCFA. SSD 500 Go ≈ 40 000 FCFA.</p>
+<div class="df">⚠️ Vérifier compatibilité DDR3/DDR4/DDR5 et SATA/NVMe.</div>
+
+<h3>🔧 Cas 3 — Détecter un vol via RAM</h3>
+<p>Sur un serveur Linux suspect :</p>
+<ol>
+<li><code>ps aux</code> — processus inconnus ?</li>
+<li><code>top</code> — charge anormale ?</li>
+<li>Dump mémoire avec <strong>volatility</strong> → chercher connexions, clés SSH en clair</li>
+<li>Isoler du réseau AVANT le dump (sinon l'attaquant efface)</li>
+</ol>`,
+quiz:[
+{q:"Redémarrage : RAM ?",o:["Garde","Se vide","Copiée","Double"],c:1,e:"Volatile."},
+{q:"RAM pleine = ?",o:["Disque","Swap","Carte mère","CPU"],c:1,e:"Disque utilisé comme RAM, 1000× plus lent."},
+{q:"Chrome isole car ?",o:["Consommer","Sandbox","Esthétique","Ralentir"],c:1,e:"Isolation = principe de sécurité."}
+]},
+
+{id:4,svg:'BIOS',titre:"BIOS/UEFI et démarrage",
+intro:"Appuyer sur Power déclenche 3 étapes. Comprendre ce démarrage = diagnostiquer 80 % des pannes.",
+cours:`
+<h3>🔌 Les 3 étapes du démarrage</h3>
+<h4>1. POST — Power-On Self-Test</h4>
+<p>Le BIOS/UEFI teste le matériel : CPU, RAM, disque, clavier, carte graphique. Si un composant critique échoue → bip ou message.</p>
+
+<h4>2. Recherche du bootloader</h4>
+<p>Le BIOS cherche un périphérique de démarrage (disque → USB → réseau) contenant un <strong>bootloader</strong> (GRUB Linux, Windows Boot Manager).</p>
+
+<h4>3. Chargement de l'OS</h4>
+<p>Le bootloader charge le kernel qui initialise les pilotes, monte les systèmes de fichiers, lance les services et l'interface.</p>
+
+<div class="analogy">🧠 Au réveil : vous vérifiez vos membres (POST), cherchez vos lunettes (bootloader), les mettez (OS). Une étape échoue = vous restez au lit.</div>
+
+<h4>🔐 BIOS vs UEFI</h4>
+<table>
+<tr><th>BIOS</th><th>UEFI</th></tr>
+<tr><td>Texte</td><td>Graphique</td></tr>
+<tr><td>≤ 2 To (MBR)</td><td>&gt; 2 To (GPT)</td></tr>
+<tr><td>Pas de Secure Boot</td><td>Secure Boot</td></tr>
+<tr><td>Lent (10-30s)</td><td>Rapide (2-5s)</td></tr>
+</table>
+
+<h4>🛡️ Secure Boot</h4>
+<p>Vérifie cryptographiquement que le bootloader est <strong>signé</strong> avant de l'exécuter. Empêche un <strong>bootkit</strong> (malware avant l'OS, invisible de l'antivirus).</p>
+
+<div class="bank">🏦 Le BIOS/UEFI doit être verrouillé par mot de passe. Sinon boot sur clé USB → vol de données. Exigence PCI-DSS + ISO 27001.</div>`,
+cas:`
+<h3>🔧 Cas 1 — « No bootable device »</h3>
+<h4>Causes par probabilité</h4>
+<ol>
+<li>Ordre de boot modifié (80 %)</li>
+<li>Câble SATA desserré</li>
+<li>Disque défaillant</li>
+<li>MBR/GPT corrompu</li>
+</ol>
+<h4>Résolution</h4>
+<ol>
+<li>F2/F10/Suppr → BIOS</li>
+<li>Vérifier détection du disque</li>
+<li>Disque en premier dans l'ordre de boot</li>
+<li>Si non détecté → câble SATA, tester sur autre PC</li>
+<li>Si MBR corrompu → live USB + <code>bootrec /fixmbr</code> (Windows) ou <code>grub-install</code> (Linux)</li>
+</ol>
+<div class="df">⚠️ 80 % du temps = ordre de boot. Vérifier AVANT de changer le disque.</div>
+<div class="pr">✅ Si message apparaît SANS raison = suspecter un bootkit (ransomware chiffrant le MBR).</div>
+
+<h3>🔧 Cas 2 — BSOD au démarrage</h3>
+<ol>
+<li>F8 → Mode sans échec (ou forcer arrêt 3× sur Win 10/11)</li>
+<li>Désinstaller la dernière mise à jour</li>
+<li>Tester RAM (MemTest86) et disque (CrystalDiskInfo)</li>
+<li>Réparer le démarrage via clé USB</li>
+<li>Réinstaller Windows (sauvegarder les données depuis un live USB Linux)</li>
+</ol>
+
+<h3>🔧 Cas 3 — Verrouiller le BIOS d'une agence</h3>
+<ol>
+<li>Mot de passe admin + démarrage</li>
+<li>Désactiver boot USB / CD / réseau</li>
+<li>Activer Secure Boot + TPM</li>
+<li>Désactiver ports USB non utilisés</li>
+<li>Sauvegarder (F10)</li>
+</ol>
+<div class="pr">✅ Résultat : PC volé = impossible à démarrer, données illisibles (BitLocker + TPM).</div>`,
+quiz:[
+{q:"POST = ?",o:["Post OS Test","Power-On Self-Test","Program Output","Primary OS"],c:1,e:"Test matériel automatique."},
+{q:"UEFI apporte ?",o:["Plus lent","GPT+Secure Boot","Inutile","Remplace CPU"],c:1,e:"GPT et Secure Boot."},
+{q:"Verrouiller BIOS car ?",o:["Esthétique","Empêcher boot USB","Accélérer","Économiser"],c:1,e:"Sécurité accès physique."}
+]},
+
+{id:5,svg:'OS',titre:"Le système d'exploitation",
+intro:"L'OS est le chef d'orchestre : il gère le matériel, les programmes et la sécurité.",
+cours:`
+<h3>🎼 Les 3 couches de l'OS</h3>
+<h4>1. Kernel (noyau)</h4>
+<p>Accès direct au matériel (ring 0). Gère :</p>
+<ul>
+<li>Mémoire (allocation/libération)</li>
+<li>Processus (création, ordonnancement, arrêt)</li>
+<li>Pilotes (disque, réseau, écran)</li>
+<li>Sécurité (isolation entre utilisateurs)</li>
+<li>Système de fichiers</li>
+</ul>
+
+<h4>2. Shell (interface)</h4>
+<ul>
+<li><strong>CLI</strong> — Bash (Linux), Zsh (macOS), PowerShell (Windows). Puissant, scriptable.</li>
+<li><strong>GUI</strong> — Explorateur Windows, GNOME, KDE. Intuitif.</li>
+</ul>
+
+<h4>3. Applications</h4>
+<p>Ne touchent jamais le matériel. Passent par des <strong>appels système</strong> au kernel.</p>
+
+<div class="analogy">🧠 Restaurant : kernel = cuisine. Shell = serveur. Applications = plats. Vous ne rentrez jamais en cuisine.</div>
+
+<h4>📊 Comparaison</h4>
+<table>
+<tr><th>Critère</th><th>Windows</th><th>Linux</th><th>macOS</th></tr>
+<tr><td>Kernel</td><td>NT</td><td>Linux</td><td>XNU</td></tr>
+<tr><td>Shell</td><td>PowerShell</td><td>Bash</td><td>Zsh</td></tr>
+<tr><td>Serveurs</td><td>25 %</td><td>70 %</td><td>2 %</td></tr>
+<tr><td>Cyber</td><td>Cible #1</td><td>Pentest</td><td>Niche</td></tr>
+</table>
+
+<div class="bank">🏦 Serveurs bancaires sous Linux (Red Hat, Ubuntu Server) pour stabilité, sécurité, pas de licences. Postes Windows pour compatibilité métier.</div>`,
+cas:`
+<h3>🔧 Cas 1 — BSOD (écran bleu)</h3>
+<p><strong>Kernel panic</strong> : le kernel détecte une erreur ingérable et arrête tout. Mécanisme de sécurité, pas une panne.</p>
+<h4>Causes</h4>
+<ul>
+<li>Pilote défectueux (n°1)</li>
+<li>RAM défaillante</li>
+<li>Disque en fin de vie</li>
+<li>Surchauffe</li>
+<li>Malware (rootkit)</li>
+</ul>
+<h4>Résolution</h4>
+<ol>
+<li>Noter le code (<code>IRQL_NOT_LESS_OR_EQUAL</code>...)</li>
+<li>Google le code + modèle PC</li>
+<li>F8 → Mode sans échec</li>
+<li>Désinstaller mises à jour récentes</li>
+<li>Tester RAM puis disque</li>
+</ol>
+<div class="df">⚠️ <code>C:\\Windows\\Minidump\\</code> contient un dump analysable avec WinDbg/BlueScreenView.</div>
+
+<h3>🔧 Cas 2 — Attaque par couches</h3>
+<p>Site malveillant sur Chrome :</p>
+<ol>
+<li>Couche application : Chrome en ring 3, ne peut pas toucher le kernel</li>
+<li>Élévation de privilèges : rare, mais c'est pourquoi Windows se met à jour</li>
+<li>Sandbox Chrome : code isolé, rien ne fuit</li>
+</ol>
+<p>→ <strong>Défense en profondeur</strong> : chaque couche bloque l'attaque.</p>
+
+<h3>🔧 Cas 3 — Détecter un rootkit Linux</h3>
+<ol>
+<li><code>sudo rkhunter --check</code></li>
+<li><code>sudo chkrootkit</code></li>
+<li><code>lsmod</code> — modules inconnus ?</li>
+<li><code>ss -tulpn</code> — connexions sortantes anormales ?</li>
+<li>Comparer binaires avec hashs de référence (AIDE, Tripwire)</li>
+</ol>
+<div class="er">❌ Si le kernel est compromis, l'attaquant peut cacher ses processus. Seule solution fiable : <strong>réinstaller</strong>.</div>`,
+quiz:[
+{q:"Rôle du kernel ?",o:["Fenêtres","Matériel/mémoire/processus","Web","Édition"],c:1,e:"Cœur de l'OS."},
+{q:"CLI vs GUI ?",o:["Identique","CLI=commande, GUI=graphique","Lent","Sécurisé"],c:1,e:"Les deux parlent au kernel."},
+{q:"Serveurs bancaires sous ?",o:["Windows","Linux","Mac","Aucun"],c:1,e:"Linux pour stabilité + sécurité."}
+]},
+
+{id:6,svg:'FILES',titre:"Le système de fichiers",
+intro:"Comprendre l'arborescence = retrouver n'importe quel fichier. En cyber, on cherche SOUVENT un fichier caché.",
+cours:`
+<h3>📁 Arborescence</h3>
+<table>
+<tr><th>Aspect</th><th>Windows</th><th>Linux</th></tr>
+<tr><td>Racine</td><td>Par disque (C:, D:)</td><td>Unique /</td></tr>
+<tr><td>Séparateur</td><td>\\</td><td>/</td></tr>
+<tr><td>Casse</td><td>Insensible</td><td>Sensible</td></tr>
+<tr><td>Cachés</td><td>Attribut</td><td>.préfixe</td></tr>
+</table>
+
+<h4>Dossiers Linux essentiels</h4>
+<ul>
+<li><code>/</code> — racine</li>
+<li><code>/home</code> — utilisateurs</li>
+<li><code>/etc</code> — configuration</li>
+<li><code>/var</code> — données variables, <code>/var/log</code> = logs</li>
+<li><code>/tmp</code> — temporaires (effacés au reboot)</li>
+<li><code>/root</code> — home admin</li>
+<li><code>/bin</code>, <code>/usr/bin</code> — binaires</li>
+<li><code>/proc</code> — processus en temps réel</li>
+</ul>
+
+<h4>🔗 Absolu vs relatif</h4>
+<ul>
+<li><strong>Absolu</strong> — commence par <code>/</code> : <code>/etc/passwd</code></li>
+<li><strong>Relatif</strong> — dépend du dossier courant : <code>../dossier</code></li>
+<li><code>.</code> courant · <code>..</code> parent · <code>~</code> home</li>
+</ul>
+
+<h4>🔐 Fichiers sensibles</h4>
+<ul>
+<li><code>/etc/passwd</code> — utilisateurs (cibles pour un attaquant)</li>
+<li><code>/etc/shadow</code> — hashs de mots de passe (root uniquement, sinon critique)</li>
+<li><code>~/.ssh/id_rsa</code> — clé SSH privée</li>
+<li><code>/var/log/auth.log</code> — authentifications (attaques visibles)</li>
+</ul>
+
+<div class="bank">🏦 Logs appli dans <code>/var/log/</code> (Linux) ou <code>C:\\ProgramData\\</code> (Windows). Analyste SOC → <code>auth.log</code> ou Event Viewer (event 4624/4625).</div>`,
+cas:`
+<h3>🔧 Cas 1 — Fichier volé</h3>
+<p>Recherche du fichier <code>salaires_2024.xlsx</code> :</p>
+<pre>Get-ChildItem -Path C:\\ -Filter *.xlsx -Recurse -ErrorAction SilentlyContinue</pre>
+<pre>find / -name "salaires*.xlsx" 2>/dev/null</pre>
+<ol>
+<li>Corbeille : <code>C:\\$Recycle.Bin\\</code> ou <code>~/.local/share/Trash/</code></li>
+<li>Event Viewer 4663 (accès), 4660 (suppression)</li>
+<li>Sauvegarde de la veille</li>
+</ol>
+<div class="df">⚠️ Dans un vrai incident : image forensic (FTK, dd) AVANT toute analyse.</div>
+
+<h3>🔧 Cas 2 — Fichier caché par un attaquant</h3>
+<h4>Techniques de dissimulation</h4>
+<ul>
+<li>Nom commençant par <code>.</code> → invisible avec <code>ls</code>. Utiliser <code>ls -la</code></li>
+<li>Double extension : <code>image.jpg.php</code></li>
+<li>Fichier dans <code>/tmp</code></li>
+<li>Permissions 777</li>
+<li>Dossier légitime (<code>/var/www/html/images/</code>)</li>
+</ul>
+<h4>Détection</h4>
+<pre>find /var/www -mtime -7
+find /var/www -name "*.php" -path "*/images/*"
+find /var/www -perm 777</pre>
+
+<div class="er">❌ Données bancaires dans <code>/tmp</code> = danger (lisible par tous, non sauvegardé, purgé au reboot = perte de preuve).</div>
+
+<h3>🔧 Cas 3 — Analyser un dossier compromis</h3>
+<ol>
+<li><code>ls -la</code> détails</li>
+<li><code>stat fichier.php</code> dates</li>
+<li><code>sha256sum *</code></li>
+<li>Rechercher sur VirusTotal</li>
+<li>Si web shell (<code>c99.php</code>, <code>r57.php</code>, <code>b374k.php</code>) → compromission</li>
+<li>Isoler + dump + reconstruire</li>
+</ol>`,
+quiz:[
+{q:"Chemin absolu ?",o:["../f","/etc/passwd","f.txt","./here"],c:1,e:"Racine."},
+{q:"Config Linux ?",o:["/home","/etc","/var","/tmp"],c:1,e:"/etc."},
+{q:"/tmp danger ?",o:["Interdit","Accessible à tous","Petit","Lent"],c:1,e:"Non sécurisé."}
+]},
+
+{id:7,svg:'KEYBOARD',titre:"Raccourcis clavier essentiels",
+intro:"Un bon analyste gagne 30 % de productivité avec les bons raccourcis. Win+L est un réflexe de sécurité.",
+cours:`
+<h3>⌨️ Raccourcis essentiels</h3>
+<h4>Édition</h4>
+<ul>
+<li>Ctrl+C / V / X — copier/coller/couper</li>
+<li>Ctrl+Z / Y — annuler/rétablir</li>
+<li>Ctrl+A / S / F — tout sélectionner/sauvegarder/rechercher</li>
+</ul>
+
+<h4>Fenêtres</h4>
+<ul>
+<li>Alt+Tab — fenêtre suivante</li>
+<li>Win+D — bureau</li>
+<li>Win+E — explorateur</li>
+<li>Win+←/→ — moitié d'écran</li>
+<li>Alt+F4 — fermer</li>
+<li>Win+Tab — Task View</li>
+</ul>
+
+<h4>🔐 Sécurité</h4>
+<ul>
+<li><strong>Win+L</strong> — verrouiller la session (SYSTÉMATIQUE)</li>
+<li>Ctrl+Alt+Suppr — écran de sécurité (non interceptable par malware user-mode)</li>
+<li>Ctrl+Shift+Échap — gestionnaire de tâches direct</li>
+<li>Win+Shift+S — capture partielle</li>
+</ul>
+
+<h4>Bash</h4>
+<ul>
+<li>Ctrl+C — interrompre</li>
+<li>Ctrl+L — vider</li>
+<li>Ctrl+R — historique</li>
+<li>Tab — auto-complétion</li>
+<li>↑/↓ — historique</li>
+<li>Ctrl+A / E — début/fin de ligne</li>
+</ul>
+
+<div class="bank">🏦 Quitter sans Win+L = faute de sécurité. Exigence ISO 27001 (A.7.7 clear desk / clear screen).</div>`,
+cas:`
+<h3>🔧 Cas 1 — Poste déverrouillé au déjeuner</h3>
+<h4>Risques</h4>
+<ul>
+<li>Vol d'identité (virement au nom du stagiaire)</li>
+<li>Violation de données clients</li>
+<li>Modification de dossiers</li>
+<li>Responsabilité pénale (fraude tracée au titulaire)</li>
+</ul>
+<p><strong>Solution : Win+L</strong> avant chaque absence.</p>
+<div class="er">❌ Fraudes internes célèbres : employé utilisant la session du collègue. Toutes les traces pointaient vers l'innocent.</div>
+
+<h3>🔧 Cas 2 — Répondre à un incident SOC</h3>
+<ol>
+<li>Win+Shift+S — capture de l'alerte</li>
+<li>Ctrl+Shift+Échap — Moniteur de ressources → Réseau</li>
+<li>Win+E — accès aux logs</li>
+<li>Ctrl+R dans le terminal — retrouver une commande passée</li>
+</ol>
+
+<h3>🔧 Cas 3 — Open space bancaire</h3>
+<ul>
+<li>Win+L à chaque absence</li>
+<li>Win+D pour masquer un document sensible</li>
+<li>Ctrl+Alt+Suppr → Verrouiller (plus sûr)</li>
+</ul>`,
+quiz:[
+{q:"Verrouiller Windows ?",o:["Ctrl+L","Win+L","Alt+L","Shift+L"],c:1,e:"Win+L."},
+{q:"Ctrl+Shift+Échap ?",o:["Redémarrer","Gestionnaire direct","Éteindre","Terminal"],c:1,e:"Gestionnaire direct."},
+{q:"Poste déverrouillé ?",o:["Électricité","Fraude possible","Politesse","Écran"],c:1,e:"Porte ouverte."}
+]},
+
+{id:8,svg:'BACKUP',titre:"La règle 3-2-1 des sauvegardes",
+intro:"Une sauvegarde non testée n'existe pas. La règle 3-2-1 sauve des entreprises — surtout face aux ransomwares.",
+cours:`
+<h3>🛡️ La règle 3-2-1</h3>
+<ul>
+<li><strong>3 copies</strong> (1 originale + 2 sauvegardes)</li>
+<li><strong>2 supports différents</strong> (disque + cloud)</li>
+<li><strong>1 hors site</strong> (autre bâtiment ou cloud)</li>
+</ul>
+
+<div class="analogy">🧠 Photo de famille : chez vous (originale), chez votre mère (2e), Google Photos (3e hors site). Maison brûle → photo survit.</div>
+
+<h4>📊 Types de sauvegardes</h4>
+<table>
+<tr><th>Type</th><th>Description</th><th>Inconvénient</th></tr>
+<tr><td>Complète</td><td>Tout</td><td>Lente, grosse</td></tr>
+<tr><td>Incrementale</td><td>Changements depuis dernière</td><td>Restauration complexe</td></tr>
+<tr><td>Différentielle</td><td>Depuis dernière complète</td><td>Grossit</td></tr>
+</table>
+
+<h4>📅 Fréquence</h4>
+<ul>
+<li>Critiques (compta, clients) : horaire</li>
+<li>Métier : quotidien</li>
+<li>Personnel : hebdo</li>
+</ul>
+
+<h4>🔐 Immutabilité</h4>
+<p>Un ransomware cherche les sauvegardes connectées pour les chiffrer aussi. Protections :</p>
+<ul>
+<li>Support <strong>déconnecté</strong> après chaque sauvegarde</li>
+<li>Cloud <strong>immutable</strong> (WORM, versioning)</li>
+<li>Compte de sauvegarde <strong>isolé</strong> des fichiers originaux</li>
+</ul>
+
+<div class="bank">🏦 BCEAO impose : sauvegarde quotidienne chiffrée + copie hors site + test trimestriel documenté. Sans restauration possible = risque de licence.</div>`,
+cas:`
+<h3>🔧 Cas 1 — Ransomware PME ivoirienne</h3>
+<p><strong>5 BTC ≈ 300 000 000 FCFA demandés.</strong></p>
+<h4>Chronologie</h4>
+<ol>
+<li>10h15 — Pièce jointe malveillante « Facture.pdf.exe »</li>
+<li>10h16 — Malware contacte son serveur C2</li>
+<li>10h30 — Chiffrement local + dossiers partagés + NAS</li>
+<li>14h00 — Panique, employés bloqués</li>
+<li>14h30 — Message de rançon</li>
+</ol>
+<h4>Ce qui sauve</h4>
+<ul>
+<li>Copie hors site intacte</li>
+<li>Copie disque déconnecté intacte</li>
+<li>Restauration rapide sans payer</li>
+</ul>
+<div class="er">❌ 1 PME sur 3 ferme après ransomware. 40 % des payeurs ne récupèrent rien, 80 % re-attaqués en 6 mois.</div>
+
+<h3>🔧 Cas 2 — Implémenter 3-2-1 pour une PME</h3>
+<ol>
+<li>Copie 1 — Serveur local + PC employés</li>
+<li>Copie 2 — Disque externe 2 To (débranché le soir). Logiciel : <strong>Veeam Free</strong> ou <strong>UrBackup</strong></li>
+<li>Copie 3 — Cloud chiffré : Backblaze B2 (~1 500 FCFA/mois pour 50 Go) ou OVHcloud</li>
+<li>Test trimestriel de restauration</li>
+</ol>
+<div class="df">⚠️ Sauvegarde cloud montée en disque = chiffrée par le ransomware. Utiliser API ou versioning.</div>
+
+<h3>🔧 Cas 3 — Test de restauration BCEAO</h3>
+<ol>
+<li>5 fichiers aléatoires restaurés depuis le cloud</li>
+<li>Serveur de test isolé</li>
+<li>Comparaison SHA256 avec l'original</li>
+<li>Durée mesurée documentée</li>
+<li>Rapport signé conservé 5 ans</li>
+</ol>
+<div class="pr">✅ « Une sauvegarde non testée n'existe pas. »</div>`,
+quiz:[
+{q:"Règle 3-2-1 ?",o:["3 users,2 pass,1 admin","3 copies,2 supports,1 hors site","3j,2h,1min","3 AV,2 FW,1 VPN"],c:1,e:"Sauvegardes pro."},
+{q:"Déconnectée car ?",o:["Électricité","Anti-ransomware","Wi-Fi","Esthétique"],c:1,e:"Empêche le chiffrement."},
+{q:"Test sauvegardes ?",o:["Parfait","Obligatoire","Inutile","Rançon"],c:1,e:"Non testée = n'existe pas."}
+]},
+
+{id:9,svg:'PERMS',titre:"Les permissions Unix",
+intro:"Mauvaise permission = faille. Concept fondamental de la sécurité système.",
+cours:`
+<h3>🔐 Permissions Unix/Linux</h3>
+<h4>3 catégories</h4>
+<ul>
+<li><strong>User</strong> — propriétaire</li>
+<li><strong>Group</strong> — groupe propriétaire</li>
+<li><strong>Others</strong> — tous les autres</li>
+</ul>
+<h4>3 permissions</h4>
+<ul>
+<li><strong>r</strong> (read) = 4 — lire</li>
+<li><strong>w</strong> (write) = 2 — modifier</li>
+<li><strong>x</strong> (execute) = 1 — exécuter</li>
+</ul>
+
+<div class="analogy">🧠 Coffre-fort : user=directeur (7), group=cadres (4), others=visiteurs (0) → 740.</div>
+
+<h4>📊 Notation</h4>
+<p><code>-rwxr-xr-x</code> = 755</p>
+<ul>
+<li><code>-</code> type (fichier)</li>
+<li><code>rwx</code> user = 7</li>
+<li><code>r-x</code> group = 5</li>
+<li><code>r-x</code> others = 5</li>
+</ul>
+
+<h4>📊 Codes courants</h4>
+<table>
+<tr><th>Code</th><th>Usage</th></tr>
+<tr><td><strong>755</strong></td><td>Exécutable, dossier web</td></tr>
+<tr><td><strong>644</strong></td><td>Fichier texte, config</td></tr>
+<tr><td><strong>600</strong></td><td>Clé SSH, données sensibles</td></tr>
+<tr><td><strong>700</strong></td><td>Script privé</td></tr>
+<tr><td><strong>777</strong></td><td>⚠️ DANGER</td></tr>
+</table>
+
+<h4>🛠️ Commandes</h4>
+<ul>
+<li><code>ls -l fichier</code> — voir permissions</li>
+<li><code>chmod 755 fichier</code> — modifier</li>
+<li><code>chown user:group fichier</code> — changer propriétaire</li>
+<li><code>umask</code> — permissions par défaut</li>
+</ul>
+
+<h4>🔐 Critique en sécurité</h4>
+<ul>
+<li>777 = tout le monde peut modifier/exécuter → faille immédiate</li>
+<li>Clé SSH en 644/755 = faille critique (OpenSSH refuse même de fonctionner)</li>
+<li>Dossier <code>uploads/</code> en 777 sur un site = upload de web shell → compromission totale</li>
+<li><code>/etc/shadow</code> lisible = hashs accessibles → cassage offline</li>
+</ul>
+
+<div class="bank">🏦 Clés SSH serveurs bancaires en <code>600</code>. Clé en 644/755 = non-conformité immédiate, révocation exigée. PCI-DSS 2.2.4 + ISO 27001 A.9.4.3.</div>`,
+cas:`
+<h3>🔧 Cas 1 — Site piraté via dossier 777</h3>
+<h4>Scénario</h4>
+<ol>
+<li>Dossier <code>uploads/</code> en 777</li>
+<li>Formulaire mal filtré → upload <code>shell.php</code></li>
+<li>Attaquant accède à <code>/uploads/shell.php</code></li>
+<li>Exécute des commandes système</li>
+<li>Exfiltre la base de données</li>
+</ol>
+<h4>Détection</h4>
+<pre>find /var/www/html/uploads -mtime -30
+find /var/www/html/uploads -name "*.php"
+grep "shell" /var/log/apache2/access.log</pre>
+<h4>Correction</h4>
+<ul>
+<li><code>uploads/</code> → 755</li>
+<li>Fichiers uploadés → 644</li>
+<li>Apache/Nginx : interdire PHP dans <code>uploads/</code></li>
+<li>Isoler le site dans un conteneur</li>
+</ul>
+<div class="df">⚠️ 30 %+ des compromissions WordPress viennent du 777 mal configuré.</div>
+
+<h3>🔧 Cas 2 — Clé SSH mal protégée</h3>
+<p>SSH refuse la connexion : <em>« WARNING: UNPROTECTED PRIVATE KEY FILE »</em>. Protection : si la clé est lisible par d'autres, elle peut être volée.</p>
+<pre>chmod 600 ~/.ssh/id_rsa
+chmod 700 ~/.ssh
+chmod 644 ~/.ssh/id_rsa.pub
+chmod 644 ~/.ssh/authorized_keys</pre>
+
+<h3>🔧 Cas 3 — Audit permissions</h3>
+<ol>
+<li><code>find / -perm 777 -type f 2>/dev/null</code></li>
+<li><code>find / -perm 777 -type d 2>/dev/null</code></li>
+<li><code>ls -l /etc/shadow</code> (doit être 640 ou 600, root:shadow)</li>
+<li><code>find / -name "id_rsa" -o -name "*.pem" 2>/dev/null | xargs ls -la</code></li>
+<li><code>find / -perm -4000 -o -perm -2000 2>/dev/null</code> (SUID/SGID)</li>
+</ol>
+<div class="pr">✅ Automatiser dans un cron quotidien avec alerte RSSI.</div>`,
+quiz:[
+{q:"755 signifie ?",o:["Tous tout","User=rwx, Group=r-x, Others=r-x","Indécodable","Rien"],c:1,e:"7+5+5 standard."},
+{q:"Pourquoi pas 777 ?",o:["Place","Tout user peut modifier/exécuter","Lent","N'existe pas"],c:1,e:"Faille critique."},
+{q:"Clé SSH = ?",o:["777","755","644","600"],c:3,e:"600 = propriétaire uniquement."}
+]},
+
+{id:10,svg:'OSI',titre:"Le modèle OSI (7 couches)",
+intro:"Le connaître sépare un débutant d'un pro. Indispensable pour diagnostiquer n'importe quelle panne réseau.",
+cours:`
+<h3>🌐 Les 7 couches OSI</h3>
+<table>
+<tr><th>#</th><th>Couche</th><th>Rôle</th><th>Exemples</th></tr>
+<tr><td>7</td><td>Application</td><td>Interface utilisateur</td><td>HTTP, HTTPS, DNS, FTP</td></tr>
+<tr><td>6</td><td>Présentation</td><td>Format, chiffrement</td><td>TLS, JPEG, UTF-8</td></tr>
+<tr><td>5</td><td>Session</td><td>Sessions</td><td>RPC, NetBIOS</td></tr>
+<tr><td>4</td><td>Transport</td><td>Segmentation, fiabilité</td><td>TCP, UDP, ports</td></tr>
+<tr><td>3</td><td>Réseau</td><td>Adressage IP, routage</td><td>IP, ICMP, routeurs</td></tr>
+<tr><td>2</td><td>Liaison</td><td>MAC, trames</td><td>Ethernet, Wi-Fi, switchs</td></tr>
+<tr><td>1</td><td>Physique</td><td>Signaux électriques</td><td>Câbles, fibres, ondes</td></tr>
+</table>
+
+<h4>🧠 Mnémotechnique</h4>
+<p><strong>A</strong>h <strong>P</strong>auvre <strong>S</strong>tagiaire, <strong>T</strong>u <strong>R</strong>êves <strong>L</strong>entement <strong>P</strong>eut-être.</p>
+
+<h4>📦 Encapsulation</h4>
+<ol>
+<li>Couche 7 : données</li>
+<li>Couche 4 : + en-tête TCP (ports)</li>
+<li>Couche 3 : + en-tête IP (adresses IP)</li>
+<li>Couche 2 : + en-tête Ethernet (MAC)</li>
+<li>Couche 1 : signal électrique</li>
+</ol>
+
+<h4>🔍 Outils par couche</h4>
+<ul>
+<li>7 : navigateur, curl</li>
+<li>6 : openssl s_client</li>
+<li>4 : telnet, nc, nmap</li>
+<li>3 : ping, traceroute, mtr</li>
+<li>2 : arp, ip neigh</li>
+<li>1 : vérif physique</li>
+</ul>
+
+<div class="bank">🏦 Diagnostiquer = descendre les couches : navigateur (7) → certificat (6) → port 443 (4) → ping (3) → Wi-Fi (1).</div>`,
+cas:`
+<h3>🔧 Cas 1 — « Le site ne marche pas »</h3>
+<p><strong>Méthode 7 couches</strong></p>
+<ol>
+<li>Application : URL correcte ? Typosquatting ?</li>
+<li>Présentation : HTTPS, certificat expiré ? <code>curl -v</code></li>
+<li>Session : cookie valide ?</li>
+<li>Transport : <code>nc -zv banque.ci 443</code></li>
+<li>Réseau : <code>ping banque.ci</code>, <code>tracert</code></li>
+<li>Liaison : Wi-Fi / Ethernet OK ?</li>
+<li>Physique : routeur, câbles ?</li>
+</ol>
+<div class="df">⚠️ 40 % du temps = problème client, pas serveur. Tester couches 1-3 AVANT de suspecter le serveur.</div>
+
+<h3>🔧 Cas 2 — Attaques par couche</h3>
+<table>
+<tr><th>Couche</th><th>Attaques</th></tr>
+<tr><td>7</td><td>SQLi, XSS, CSRF, phishing</td></tr>
+<tr><td>6</td><td>Downgrade TLS</td></tr>
+<tr><td>5</td><td>Vol de cookie</td></tr>
+<tr><td>4</td><td>Scan ports, SYN flood</td></tr>
+<tr><td>3</td><td>IP spoofing</td></tr>
+<tr><td>2</td><td>ARP spoofing</td></tr>
+<tr><td>1</td><td>Coupure, écoute physique</td></tr>
+</table>
+<p><strong>ARP spoofing</strong> : l'attaquant envoie de faux paquets ARP → tout le trafic passe par sa machine (MitM). Protection : DAI, VLAN, chiffrement.</p>
+
+<h3>🔧 Cas 3 — Lenteur réseau</h3>
+<ol>
+<li>Couche 7 : tester via curl (si seul le navigateur lent, c'est le navigateur)</li>
+<li>Couche 4 : <code>nc -zv serveur 443</code></li>
+<li>Couche 3 : <code>mtr serveur</code> (latence à chaque saut)</li>
+<li>Couche 2 : tester en Ethernet</li>
+<li>Couche 1 : câble, port switch</li>
+</ol>
+<div class="pr">✅ <code>mtr</code> = outil pro pour diagnostiquer lenteurs (affiche pertes par saut).</div>`,
+quiz:[
+{q:"Routage IP = couche ?",o:["2","3","4","7"],c:1,e:"Couche 3."},
+{q:"TCP/UDP = couche ?",o:["2","3","4","7"],c:2,e:"Couche 4."},
+{q:"Site ne marche pas, tester d'abord ?",o:["Serveur","Connexion client","Changer banque","Réinstaller"],c:1,e:"40 % côté client."}
+]}
+];
+
+/* ============================================================
+   CERTIFICATIONS — liées aux niveaux
+   ============================================================ */
+var CERTS=[
+{id:'cisco-intro',nom:"Introduction to Cybersecurity",org:"Cisco NetAcad",free:true,niv:"Débutant",dur:"~6h",req:1,lien:"https://www.netacad.com/courses/cybersecurity/introduction-cybersecurity",desc:"Bases, menaces, acteurs. Certificat gratuit."},
+{id:'fortinet-nse1',nom:"NSE 1 Awareness",org:"Fortinet",free:true,niv:"Débutant",dur:"~2h",req:1,lien:"https://training.fortinet.com/",desc:"Sensibilisation sécurité."},
+{id:'ibm',nom:"Cybersecurity Fundamentals",org:"IBM SkillsBuild",free:true,niv:"Débutant",dur:"~10h",req:1,lien:"https://skillsbuild.org/",desc:"Fondamentaux IBM avec badge."},
+{id:'cisco-essentials',nom:"Cybersecurity Essentials",org:"Cisco NetAcad",free:true,niv:"Débutant+",dur:"~8h",req:5,lien:"https://www.netacad.com/courses/cybersecurity/cybersecurity-essentials",desc:"Défense en profondeur, crypto."},
+{id:'fortinet-nse2',nom:"NSE 2 Evolution",org:"Fortinet",free:true,niv:"Débutant+",dur:"~6h",req:5,lien:"https://training.fortinet.com/",desc:"Écosystème sécurité."},
+{id:'tryhackme',nom:"Pre-Security Path",org:"TryHackMe",free:true,niv:"Débutant",dur:"~30h",req:5,lien:"https://tryhackme.com/path/outline/presecurity",desc:"Labs interactifs."},
+{id:'google-audit',nom:"Google Cybersecurity (audit)",org:"Google/Coursera",free:true,niv:"Débutant",dur:"~6 mois",req:5,lien:"https://www.coursera.org/professional-certificates/google-cybersecurity",desc:"Audit gratuit."},
+{id:'owasp',nom:"OWASP Top 10",org:"OWASP",free:true,niv:"Intermédiaire",dur:"~10h",req:8,lien:"https://owasp.org/www-project-top-ten/",desc:"10 vulnérabilités web."},
+{id:'palo',nom:"Cybersecurity Academy",org:"Palo Alto",free:true,niv:"Débutant+",dur:"~20h",req:8,lien:"https://www.paloaltonetworks.com/cyberpedia/cybersecurity-academy",desc:"Pare-feu Palo Alto."},
+{id:'cisco-junior',nom:"Junior Cybersecurity Analyst",org:"Cisco NetAcad",free:true,niv:"Intermédiaire",dur:"~50h",req:10,lien:"https://www.netacad.com/courses/cybersecurity",desc:"Parcours complet gratuit."},
+{id:'ms-sc900',nom:"SC-900 Training",org:"Microsoft Learn",free:true,niv:"Débutant",dur:"~15h",req:10,lien:"https://learn.microsoft.com/en-us/training/",desc:"Formation gratuite."},
+{id:'comptia-net',nom:"CompTIA Network+",org:"CompTIA",free:false,prix:"~338 USD",niv:"Débutant+",dur:"2-4 mois",req:10,lien:"https://www.comptia.org/certifications/network",desc:"Réseau fondamental. Prérequis Security+."},
+{id:'comptia-sec',nom:"CompTIA Security+",org:"CompTIA",free:false,prix:"~380 USD",niv:"Intermédiaire",dur:"3-6 mois",req:10,lien:"https://www.comptia.org/certifications/security",desc:"Entrée cyber la plus reconnue en banque."},
+{id:'comptia-cysa',nom:"CompTIA CySA+",org:"CompTIA",free:false,prix:"~404 USD",niv:"Intermédiaire+",dur:"3-6 mois",req:10,lien:"https://www.comptia.org/certifications/cybersecurity-analyst",desc:"Analyste SOC."},
+{id:'ceh',nom:"CEH",org:"EC-Council",free:false,prix:"~1199 USD",niv:"Intermédiaire+",dur:"3-6 mois",req:10,lien:"https://www.eccouncil.org/programs/certified-ethical-hacker-ceh/",desc:"Hacking éthique, reconnue CI."},
+{id:'oscp',nom:"OSCP",org:"OffSec",free:false,prix:"~1599 USD",niv:"Avancé",dur:"6-12 mois",req:10,lien:"https://www.offsec.com/courses/pen-200/",desc:"LA certif pentest."},
+{id:'cissp',nom:"CISSP",org:"ISC²",free:false,prix:"~749 USD",niv:"Expert",dur:"6-12 mois",req:10,lien:"https://www.isc2.org/certifications/cissp",desc:"RSSI, 5 ans exp requis."},
+{id:'cism',nom:"CISM",org:"ISACA",free:false,prix:"~760 USD",niv:"Expert",dur:"4-8 mois",req:10,lien:"https://www.isaca.org/credentialing/cism",desc:"Management sécurité."},
+{id:'cisa',nom:"CISA",org:"ISACA",free:false,prix:"~760 USD",niv:"Expert",dur:"4-8 mois",req:10,lien:"https://www.isaca.org/credentialing/cisa",desc:"Audit SI — banque !"},
+{id:'crisc',nom:"CRISC",org:"ISACA",free:false,prix:"~760 USD",niv:"Expert",dur:"4-8 mois",req:10,lien:"https://www.isaca.org/credentialing/crisc",desc:"Risques SI, BCEAO."},
+{id:'ccna',nom:"CCNA",org:"Cisco",free:false,prix:"~300 USD",niv:"Intermédiaire",dur:"3-6 mois",req:10,lien:"https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/associate/ccna.html",desc:"Réseau référence."},
+{id:'iso-la',nom:"ISO 27001 Lead Auditor",org:"PECB",free:false,prix:"~800-1500 USD",niv:"Expert",dur:"5j + exam",req:10,lien:"https://pecb.com/en/education-and-certification-for-individuals/iso-iec-27001",desc:"Audit SMSI — BCEAO."},
+{id:'iso-li',nom:"ISO 27001 Lead Implementer",org:"PECB",free:false,prix:"~800-1500 USD",niv:"Expert",dur:"5j + exam",req:10,lien:"https://pecb.com/en/education-and-certification-for-individuals/iso-iec-27001",desc:"Mise en œuvre SMSI."}
+];
+
+/* ============================================================
+   JOBS
+   ============================================================ */
+var JOBS=[
+{t:"Ingénieur Cybersécurité Senior",o:"Groupe COFINA",l:"Abidjan",d:"SIEM, IAM, pentest. Bac+4/5, 3 ans exp.",u:"https://www.groupecofina.com/carriere/"},
+{t:"Ingénieur Sécurité Informatique",o:"BDU Côte d'Ivoire",l:"Abidjan",d:"SIEM, déploiement sécurité.",u:"https://bduci.com/"},
+{t:"Chargé de la Sécurité des SI",o:"DC/BR UMOA",l:"Abidjan",d:"Sécurité SI, conformité.",u:"https://www.dcbruemoa.org/"},
+{t:"Stagiaire Cybersécurité",o:"AFG Holding",l:"Abidjan",d:"DevSecOps, vulnérabilités.",u:"https://afgholding-sa.com/"},
+{t:"Info System Security Engineer",o:"Djamo",l:"Abidjan",d:"Sécurité SI, fintech.",u:"https://djamo.com/"},
+{t:"Ingénieur Cybersécurité Junior",o:"Eclozion",l:"Abidjan",d:"Junior cyber.",u:"https://ci.eclozion-opportunities.com/"},
+{t:"Cyber Security Engineer",o:"Emploi.ci",l:"Abidjan",d:"Ingénieur sécurité.",u:"https://www.emploi.ci/"},
+{t:"Ingénieur GRC",o:"Cari Emploi",l:"Abidjan",d:"Gouvernance Risques Conformité.",u:"https://emploi.ci.cari.africa/"}
+];
+
+/* ============================================================
+   EXAMENS
+   ============================================================ */
+var EXAMENS={
+partiel:{
+  titre:"Examen partiel — Défis 1 à 5",
+  desc:"Composants, CPU, RAM, BIOS, OS. Réussite : 60 %.",
+  req:[1,2,3,4,5],
+  qs:[
+    {q:"Composant volatil ?",o:["SSD","RAM","Carte mère","BIOS"],c:1,e:"RAM perd tout sans courant."},
+    {q:"Cycle CPU ?",o:["Decode-Fetch-Execute","Fetch-Decode-Execute","Execute-Fetch-Decode","Fetch-Execute-Decode"],c:1,e:"Fetch → Decode → Execute."},
+    {q:"RAM pleine = ?",o:["PC s'éteint","Swap","CPU fond","BIOS"],c:1,e:"Disque utilisé comme RAM."},
+    {q:"POST teste ?",o:["Internet","Matériel","Virus","Emails"],c:1,e:"Power-On Self-Test."},
+    {q:"Rôle kernel ?",o:["Fenêtres","Matériel/mémoire/processus","Web","Édition"],c:1,e:"Cœur de l'OS."}
+  ]
+},
+final:{
+  titre:"Examen final — Défis 1 à 10",
+  desc:"Examen complet. Réussite : 80 %.",
+  req:[1,2,3,4,5,6,7,8,9,10],
+  qs:[
+    {q:"Fichier 777 = ?",o:["Sécurisé","Dangereux","Inaccessible","Corrompu"],c:1,e:"Faille critique."},
+    {q:"Règle 3-2-1 ?",o:["3 users,2 pass,1 admin","3 copies,2 supports,1 hors site","3j,2h,1min","3 AV,2 FW,1 VPN"],c:1,e:"Sauvegardes pro."},
+    {q:"Routage IP = couche ?",o:["2","3","4","7"],c:1,e:"Couche 3."},
+    {q:"Verrouiller Windows ?",o:["Ctrl+L","Win+L","Alt+L","Shift+L"],c:1,e:"Win+L."},
+    {q:"Config Linux = ?",o:["/home","/etc","/var","/tmp"],c:1,e:"/etc."},
+    {q:"CPU 100 % sans activité ?",o:["Écran","Malware","RAM","Câble"],c:1,e:"Cryptominer."},
+    {q:"Chrome isole ?",o:["Consommer","Sandbox","Esthétique","Ralentir"],c:1,e:"Sandboxing."},
+    {q:"UEFI apporte ?",o:["Rien","GPT+Secure Boot","Lenteur","Moins sécurité"],c:1,e:"GPT et Secure Boot."},
+    {q:"Clé SSH = ?",o:["777","755","644","600"],c:3,e:"600 propriétaire."},
+    {q:"No bootable device ?",o:["PC mort","Pas de périphérique démarrage","Internet coupé","Disque plein"],c:1,e:"Pas de bootloader."}
+  ]
+}
+};
+
+/* ============================================================
+   ROUTER
+   ============================================================ */
+window.addEventListener('hashchange',route);
+function go(h){location.hash=h;}
+function route(){
+  header();
+  if(!state.currentUser){renderLogin();return;}
+  var h=(location.hash||'#home').slice(1),p=h.split('/');
+  if(p[0]==='home'||p[0]==='')return renderHome();
+  if(p[0]==='defi'&&p[1])return renderDefi(parseInt(p[1]));
+  if(p[0]==='certif')return renderCertif();
+  if(p[0]==='cv')return renderCV();
+  if(p[0]==='stats')return renderStats();
+  if(p[0]==='jobs')return renderJobs();
+  if(p[0]==='examens')return renderExamens();
+  if(p[0]==='examen'&&p[1])return renderExamen(p[1]);
+  if(p[0]==='certs')return renderCerts();
+  if(p[0]==='sync')return renderSync();
+  if(p[0]==='login')return renderLogin();
+  renderHome();
+}
+
+function header(){
+  var u=user(),el=document.getElementById('hs');if(!el)return;
+  if(u){
+    var d=Object.keys(u.defisDone).filter(function(k){return u.defisDone[k];}).length;
+    el.innerHTML='<span class="pill">👤 '+u.name+'</span><span class="pill">📚 <b>'+d+'/10</b> défis</span><span class="pill">🎓 <b>'+u.certsDone.length+'</b> certifs</span><a class="logout" onclick="logout()">Déconnexion</a>';
+  }else el.innerHTML='<span class="pill">Non connecté</span>';
+}
+
+function recordDefi(id){
+  var u=user();if(!u)return;
+  var k='1_'+id;
+  if(!u.defisDone[k]){
+    u.defisDone[k]=true;
+    var t=today();
+    if(!u.jours[t])u.jours[t]={defis:[]};
+    if(u.jours[t].defis.indexOf(id)===-1)u.jours[t].defis.push(id);
+    save();
+  }
+}
+
+/* ============================================================
+   LOGIN
+   ============================================================ */
+function renderLogin(){
+  var html='<div class="login-box"><div style="text-align:center;margin-bottom:20px"><div style="display:inline-block;width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--cyan),#0098c4);display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 8px 24px rgba(0,212,255,.4)">🛡️</div></div><h2>Bienvenue</h2><p class="sub">Connecte-toi pour sauvegarder ta progression et retrouver ton certificat, ton CV et tes statistiques.</p><input id="loginName" placeholder="Ton prénom" autocomplete="off"><button onclick="login()">Se connecter / Créer un compte</button><div style="margin-top:20px;text-align:center;font-size:0.78em;color:#64748b;line-height:1.6">Données stockées localement.<br>Utilise la synchronisation pour les transférer.</div></div>';
+  document.getElementById('app').innerHTML=html;
+  setTimeout(function(){var e=document.getElementById('loginName');if(e)e.focus();},100);
+}
+
+/* ============================================================
+   HOME
+   ============================================================ */
+function renderHome(){
+  var u=user();if(!u)return renderLogin();
+  var d=Object.keys(u.defisDone).filter(function(k){return u.defisDone[k];}).length;
+  var pct=Math.round(d/10*100);
+  var html='<div class="card"><h2>Bienvenue, '+u.name+' 👋</h2><p style="font-size:1.05em">Formation <strong>Niveau 1 : Fondamentaux informatique</strong>. Objectif : décrocher un poste cyber en banque en Côte d\'Ivoire.</p>';
+  html+='<div class="stats-grid"><div class="stat"><span class="big">'+d+'/10</span><span class="lbl">Défis validés</span></div><div class="stat"><span class="big">'+u.certsDone.length+'</span><span class="lbl">Certifications</span></div><div class="stat"><span class="big">'+pct+'%</span><span class="lbl">Progression</span></div><div class="stat"><span class="big">'+(u.examens.partiel?'✅':'—')+'</span><span class="lbl">Examen partiel</span></div></div>';
+  html+='<div class="progress-bar"><div style="width:'+pct+'%"></div></div></div>';
+
+  html+='<div class="card"><h2>🚀 Accès rapide</h2><div class="nav">';
+  html+='<button onclick="go(\'\')">📚 Défis</button>';
+  html+='<button class="sec" onclick="go(\'stats\')">📊 Stats</button>';
+  html+='<button class="gold" onclick="go(\'certif\')">🎓 Certificat</button>';
+  html+='<button class="sec" onclick="go(\'cv\')">📄 CV pro</button>';
+  html+='<button class="sec" onclick="go(\'jobs\')">💼 Emploi</button>';
+  html+='<button class="sec" onclick="go(\'examens\')">📝 Examens</button>';
+  html+='<button class="sec" onclick="go(\'certs\')">🎓 Certifications</button>';
+  html+='<button class="sec" onclick="go(\'sync\')">🌐 Sync</button>';
+  html+='</div></div>';
+
+  html+='<div class="card"><h2>🎯 Les 10 défis du Niveau 1</h2><p style="color:#94a3b8;font-size:0.9em">Clique sur un défi pour accéder au cours complet, aux cas pratiques et au quiz.</p><div class="grid">';
+  NIVEAU1.forEach(function(df){
+    var k='1_'+df.id;
+    var done=u.defisDone[k];
+    html+='<div class="btn '+(done?'done':'')+'" onclick="go(\'defi/'+df.id+'\')"><span class="n">Défi '+df.id+(done?' ✓ Validé':'')+'</span><span class="ti">'+df.titre+'</span></div>';
+  });
+  html+='</div></div>';
+  document.getElementById('app').innerHTML=html;
+}
+
+/* ============================================================
+   DEFI
+   ============================================================ */
+function renderDefi(id){
+  var d=null;for(var i=0;i<NIVEAU1.length;i++){if(NIVEAU1[i].id===id){d=NIVEAU1[i];break;}}
+  if(!d){alert('Défi introuvable');go('home');return;}
+  var u=user();
+  var done=u.defisDone['1_'+id];
+
+  var html='<div class="crumb"><a onclick="go(\'home\')">Accueil</a> / Défi '+id+'</div>';
+  html+='<div class="card"><h2>'+d.titre+'</h2><div class="intro">'+d.intro+'</div>';
+  if(SVG[d.svg])html+='<div class="svg-box">'+SVG[d.svg]+'</div>';
+  html+='</div>';
+  html+='<div class="card"><h2>📖 Cours complet</h2>'+d.cours+'</div>';
+  html+='<div class="card"><h2>🔧 Cas pratiques</h2>'+d.cas+'</div>';
+
+  html+='<div class="card"><h2>📝 Quiz de validation</h2><p style="color:#94a3b8;font-size:0.9em">Réponds correctement aux 3 questions pour valider ce défi.</p><div class="quiz">';
+  d.quiz.forEach(function(q,i){
+    html+='<div class="q" data-i="'+i+'"><p>Q'+(i+1)+'. '+q.q+'</p>';
+    q.o.forEach(function(opt,j){
+      html+='<label><input type="radio" name="q'+i+'" value="'+j+'"> '+opt+'</label>';
+    });
+    html+='<div class="exp" id="exp'+i+'">'+q.e+'</div></div>';
+  });
+  html+='<button onclick="validerQuiz('+id+')">Vérifier mes réponses</button><div id="qr"></div></div></div>';
+
+  html+='<div class="nav">';
+  if(id>1)html+='<button class="sec" onclick="go(\'defi/'+(id-1)+'\')">← Précédent</button>';
+  if(id<10)html+='<button class="sec" onclick="go(\'defi/'+(id+1)+'\')">Suivant →</button>';
+  html+='<button onclick="go(\'home\')">🏠 Accueil</button>';
+  if(done)html+='<button class="green">✓ Validé</button>';
+  html+='</div>';
+  document.getElementById('app').innerHTML=html;
+  window.scrollTo(0,0);
+}
+
+function validerQuiz(id){
+  var d=null;for(var i=0;i<NIVEAU1.length;i++){if(NIVEAU1[i].id===id){d=NIVEAU1[i];break;}}
+  if(!d)return;
+  var correct=0;
+  d.quiz.forEach(function(q,i){
+    var sel=document.querySelector('input[name="q'+i+'"]:checked');
+    var labels=document.querySelectorAll('.q[data-i="'+i+'"] label');
+    labels.forEach(function(l){l.classList.remove('ok','ko');});
+    var e=document.getElementById('exp'+i);if(e)e.style.display='block';
+    if(sel&&parseInt(sel.value)===q.c){correct++;labels[q.c].classList.add('ok');}
+    else{labels[q.c].classList.add('ok');if(sel)labels[parseInt(sel.value)].classList.add('ko');}
+  });
+  var u=user();
+  u.quizScores['1_'+id]={correct:correct,total:d.quiz.length};
+  if(correct===d.quiz.length)recordDefi(id);
+  save();
+
+  var r=document.getElementById('qr');
+  var pass=correct===d.quiz.length;
+  r.className='res '+(pass?'g':'r');
+  r.textContent=pass?'🎉 '+correct+'/'+d.quiz.length+' — Défi validé !':correct+'/'+d.quiz.length+' — Réessaie';
+
+  if(pass&&id===10){
+    var done=Object.keys(u.defisDone).filter(function(k){return u.defisDone[k];}).length;
+    if(done===10)setTimeout(function(){alert('🏆 FÉLICITATIONS !\n\nTu as terminé les 10 défis du Niveau 1 !\nTon certificat est disponible dans "Certificat".');},400);
+  }
+}
+
+/* ============================================================
+   CERTIFICAT PROFESSIONNEL
+   ============================================================ */
+function renderCertif(){
+  var u=user();if(!u)return;
+  var d=Object.keys(u.defisDone).filter(function(k){return u.defisDone[k];}).length;
+  var unlocked = d>=10;
+  var certId='MDPC-N1-'+u.name.slice(0,3).toUpperCase()+'-'+d+'-'+(u.createdAt||'').replace(/-/g,'');
+
+  var html='<div class="crumb"><a onclick="go(\'home\')">Accueil</a> / Certificat Niveau 1</div>';
+
+  if(!unlocked){
+    html+='<div class="card"><div class="cert-locked">';
+    html+='<div class="icon">🔒</div>';
+    html+='<h3>Certificat Niveau 1 verrouillé</h3>';
+    html+='<p>Valide les <strong>10 défis</strong> du Niveau 1 pour débloquer ton certificat officiel.</p>';
+    html+='<div class="progress-small"><div style="width:'+(d*10)+'%"></div></div>';
+    html+='<p style="color:var(--gold);font-weight:700;font-size:1.1rem">'+d+' / 10 défis validés</p>';
+    html+='<div class="nav" style="justify-content:center"><button onclick="go(\'\')">📚 Continuer les défis</button></div>';
+    html+='</div></div>';
+  }else{
+    html+='<div class="card printable" style="background:none;border:none;box-shadow:none;padding:0">';
+    html+='<div class="cert-wrapper">';
+    html+='<div class="certificate">';
+    html+='<div class="seal">🏆</div>';
+    html+='<div class="subtitle">Certificat officiel de réussite</div>';
+    html+='<div class="title">Niveau 1 — Fondamentaux informatique</div>';
+    html+='<div class="certifies">décerné à</div>';
+    html+='<div class="name">'+u.name+'</div>';
+    html+='<div class="level-title">Mon Drôle Parcours Cyber</div>';
+    html+='<p style="color:#94a3b8;max-width:480px;margin:16px auto;font-size:.9rem;line-height:1.6">Pour avoir validé avec succès les 10 défis du Niveau 1 et démontré sa maîtrise des fondamentaux de l\'informatique et de la sécurité système.</p>';
+    html+='<div class="details">';
+    html+='<div>Défis validés<strong>10 / 10</strong></div>';
+    html+='<div>Examen partiel<strong>'+(u.examens.partiel?'✅ Réussi':'—')+'</strong></div>';
+    html+='<div>Examen final<strong>'+(u.examens.final?'✅ Réussi':'—')+'</strong></div>';
+    html+='<div>Date<strong>'+new Date().toLocaleDateString('fr-FR')+'</strong></div>';
+    html+='</div>';
+    html+='<div class="cert-id">ID : '+certId+'</div>';
+    html+='<div class="signature">';
+    html+='<div class="signature-block"><div class="sig-name">H. N\'GUESSAN</div><div class="sig-line">Fondateur & Formateur</div></div>';
+    html+='<div class="signature-block"><div class="sig-name" style="font-family:Georgia,serif">'+new Date().toLocaleDateString('fr-FR')+'</div><div class="sig-line">Date d\'émission</div></div>';
+    html+='</div>';
+    html+='</div></div>';
+    html+='<div class="cert-actions nav" style="justify-content:center;margin-top:20px"><button class="print" onclick="window.print()">🖨️ Imprimer / Télécharger en PDF</button><button class="gold" onclick="go(\'cv\')">📄 Générer mon CV pro</button></div>';
+    html+='</div>';
+  }
+  document.getElementById('app').innerHTML=html;
+}
+
+/* ============================================================
+   CV PROFESSIONNEL
+   ============================================================ */
+function renderCV(){
+  var u=user();if(!u)return;
+  var d=Object.keys(u.defisDone).filter(function(k){return u.defisDone[k];}).length;
+  var cs=u.certsDone.map(function(id){for(var i=0;i<CERTS.length;i++){if(CERTS[i].id===id)return CERTS[i];}return null;}).filter(Boolean);
+
+  var niveaux=[
+    {nom:'Fondamentaux informatique',pct:Math.round(d/10*100),done:d>=10},
+  ];
+
+  var badges='';
+  cs.forEach(function(c){
+    badges+='<span class="cv-badge'+(c.free?' green':' gold')+'">'+c.nom+'</span>';
+  });
+  if(!badges)badges='<span style="color:#94a3b8;font-size:.85rem;font-style:italic">Aucune certification obtenue pour le moment.</span>';
+
+  var defisList=NIVEAU1.map(function(df){
+    var done=u.defisDone['1_'+df.id];
+    return '<li>'+(done?'✓':'○')+' <strong>Défi '+df.id+'</strong> — '+df.titre+'</li>';
+  }).join('');
+
+  var html='<div class="crumb"><a onclick="go(\'home\')">Accueil</a> / CV professionnel</div>';
+  html+='<div class="cv-actions"><button class="print" onclick="window.print()">🖨️ Télécharger en PDF</button><button class="sec" onclick="copyCV()">📋 Copier le texte</button></div>';
+
+  html+='<div class="card printable" style="background:none;border:none;box-shadow:none;padding:0">';
+  html+='<div class="cv-container"><div class="cv-page">';
+
+  /* Header */
+  html+='<div class="cv-header">';
+  html+='<div class="left">';
+  html+='<h1>'+u.name.toUpperCase()+'</h1>';
+  html+='<div class="role">Étudiant L2 UVCI · Aspirant Analyste Cybersécurité</div>';
+  html+='<div class="objective">Passionné par la sécurité des systèmes d\'information, je cherche à appliquer mes compétences en cybersécurité dans le secteur bancaire ivoirien, où la protection des données est critique.</div>';
+  html+='</div>';
+  html+='<div class="right">';
+  html+='<div><b>📍</b> Abidjan, Côte d\'Ivoire</div>';
+  html+='<div><b>🎓</b> L2 — UVCI</div>';
+  html+='<div><b>📅</b> '+new Date().toLocaleDateString('fr-FR')+'</div>';
+  html+='</div>';
+  html+='</div>';
+
+  /* Profil */
+  html+='<div class="cv-section"><h2>Profil professionnel</h2>';
+  html+='<p style="font-size:.9rem;color:#334155;line-height:1.6">Étudiant en deuxième année de licence à l\'Université Virtuelle de Côte d\'Ivoire, je me forme activement à la cybersécurité à travers un parcours structuré de 100 défis. Mon objectif : devenir analyste SOC puis ingénieur sécurité en banque, domaine exigeant rigueur et conformité (BCEAO, ISO 27001, PCI-DSS).</p>';
+  html+='</div>';
+
+  /* Formation */
+  html+='<div class="cv-section"><h2>Formation</h2>';
+  html+='<div class="cv-item">';
+  html+='<div class="line1"><span class="title">Licence 2 — Université Virtuelle de Côte d\'Ivoire</span><span class="date">En cours</span></div>';
+  html+='<div class="org">Sciences informatiques</div>';
+  html+='<div class="desc">Formation universitaire en informatique, avec un focus personnel sur la cybersécurité défensive (blue team).</div>';
+  html+='</div>';
+  html+='<div class="cv-item">';
+  html+='<div class="line1"><span class="title">Parcours "Mon Drôle Parcours Cyber" — Niveau 1</span><span class="date">'+d+'/10 défis</span></div>';
+  html+='<div class="org">Formation autodidacte structurée</div>';
+  html+='<div class="desc">Cours complets et cas pratiques sur : composants matériels, systèmes d\'exploitation, stockage, BIOS/UEFI, sécurité système, sauvegardes 3-2-1, permissions Unix et modèle OSI.</div>';
+  html+='</div>';
+  html+='</div>';
+
+  /* Compétences */
+  html+='<div class="cv-section"><h2>Compétences techniques</h2>';
+  html+='<div class="skills-grid">';
+  niveaux.forEach(function(n){
+    html+='<div class="skill"><div class="name"><span>'+n.nom+'</span><span>'+n.pct+'%</span></div><div class="bar"><div style="width:'+n.pct+'%"></div></div></div>';
+  });
+  html+='<div class="skill"><div class="name"><span>Modèle OSI & diagnostic réseau</span><span>'+Math.min(d*10,100)+'%</span></div><div class="bar"><div style="width:'+Math.min(d*10,100)+'%"></div></div></div>';
+  html+='<div class="skill"><div class="name"><span>Permissions Unix (chmod)</span><span>'+Math.min(d*10,100)+'%</span></div><div class="bar"><div style="width:'+Math.min(d*10,100)+'%"></div></div></div>';
+  html+='<div class="skill"><div class="name"><span>Sauvegardes & résilience</span><span>'+Math.min(d*10,100)+'%</span></div><div class="bar"><div style="width:'+Math.min(d*10,100)+'%"></div></div></div>';
+  html+='</div>';
+  html+='</div>';
+
+  /* Défis réalisés */
+  html+='<div class="cv-section"><h2>Défis techniques validés</h2>';
+  html+='<ul style="font-size:.87rem;color:#334155;line-height:1.7;padding-left:20px;margin:0">'+defisList+'</ul>';
+  html+='</div>';
+
+  /* Certifications */
+  html+='<div class="cv-section"><h2>Certifications obtenues</h2>';
+  html+='<div class="cv-badges">'+badges+'</div>';
+  html+='</div>';
+
+  /* Examens */
+  html+='<div class="cv-section"><h2>Évaluations</h2>';
+  html+='<div class="cv-item"><div class="line1"><span class="title">Examen partiel Niveau 1</span><span class="date">'+(u.examens.partiel?'Réussi le '+u.examens.partiel:'Non passé')+'</span></div></div>';
+  html+='<div class="cv-item"><div class="line1"><span class="title">Examen final Niveau 1</span><span class="date">'+(u.examens.final?'Réussi le '+u.examens.final:'Non passé')+'</span></div></div>';
+  html+='</div>';
+
+  /* Footer */
+  html+='<div class="cv-footer">Généré le '+new Date().toLocaleDateString('fr-FR')+' · Mon Drôle Parcours Cyber — H. N\'GUESSAN ®</div>';
+
+  html+='</div></div></div>';
+
+  document.getElementById('app').innerHTML=html;
+}
+
+function copyCV(){
+  var u=user();if(!u)return;
+  var d=Object.keys(u.defisDone).filter(function(k){return u.defisDone[k];}).length;
+  var t=u.name.toUpperCase()+'\nÉtudiant L2 UVCI — Aspirant Analyste Cybersécurité\n\nFORMATIONS\n• L2 UVCI — Sciences informatiques\n• Mon Drôle Parcours Cyber — Niveau 1 ('+d+'/10 défis)\n\nCOMPÉTENCES\n• Composants matériels, OS, BIOS/UEFI\n• Sécurité système (permissions, sauvegardes)\n• Réseau (OSI, diagnostic)\n\nEXAMENS\n• Partiel : '+(u.examens.partiel?'Réussi':'Non passé')+'\n• Final : '+(u.examens.final?'Réussi':'Non passé')+'\n\nGénéré le '+new Date().toLocaleDateString('fr-FR');
+  if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){alert('CV copié !');},function(){fbCopy(t);});}
+  else fbCopy(t);
+}
+function fbCopy(t){
+  var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');alert('CV copié !');}catch(e){alert('Copie manuelle');}
+  document.body.removeChild(ta);
+}
+
+/* ============================================================
+   STATS
+   ============================================================ */
+function renderStats(){
+  var u=user();if(!u)return;
+  var t=today();
+  var td=(u.jours&&u.jours[t])?u.jours[t]:{defis:[]};
+  var d=Object.keys(u.defisDone).filter(function(k){return u.defisDone[k];}).length;
+  var html='<div class="crumb"><a onclick="go(\'home\')">Accueil</a> / Statistiques</div>';
+  html+='<div class="card"><h2>📊 '+u.name+'</h2><div class="stats-grid">';
+  html+='<div class="stat"><span class="big">'+d+'</span><span class="lbl">Défis totaux</span></div>';
+  html+='<div class="stat"><span class="big">'+td.defis.length+'</span><span class="lbl">Aujourd\'hui</span></div>';
+  html+='<div class="stat"><span class="big">'+u.certsDone.length+'</span><span class="lbl">Certifications</span></div>';
+  html+='<div class="stat"><span class="big">'+(u.examens.partiel?'✅':'—')+'</span><span class="lbl">Examen partiel</span></div>';
+  html+='</div></div>';
+  html+='<div class="card"><h3>🔥 Aujourd\'hui ('+t+')</h3>';
+  if(td.defis.length===0)html+='<p style="color:#94a3b8">Aucun défi aujourd\'hui. Lance-toi !</p>';
+  else{html+='<ul class="today-list">';td.defis.forEach(function(did){var dd=null;for(var i=0;i<NIVEAU1.length;i++){if(NIVEAU1[i].id===did){dd=NIVEAU1[i];break;}}html+='<li>✅ Défi '+did+' : '+(dd?dd.titre:'Défi '+did)+'</li>';});html+='</ul>';}
+  html+='<div class="nav"><button onclick="go(\'\')">Continuer</button></div></div>';
+  html+='<div class="card"><h3>📅 Historique (14 jours)</h3>';
+  var jours=u.jours||{},keys=Object.keys(jours).sort().reverse().slice(0,14);
+  if(keys.length===0)html+='<p style="color:#94a3b8">Pas encore d\'historique.</p>';
+  else keys.forEach(function(k){html+='<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1e2a44;font-size:.88em"><span>'+k+'</span><span style="color:#22c55e"><b>'+(jours[k].defis?jours[k].defis.length:0)+'</b> défi(s)</span></div>';});
+  html+='</div>';
+  document.getElementById('app').innerHTML=html;
+}
+
+/* ============================================================
+   JOBS
+   ============================================================ */
+function renderJobs(){
+  var html='<div class="crumb"><a onclick="go(\'home\')">Accueil</a> / Emploi</div>';
+  html+='<div class="card"><h2>💼 Offres cyber — Côte d\'Ivoire</h2><p style="color:#94a3b8;font-size:.9em">Offres réelles à Abidjan. Postule avec ton CV pro.</p><div class="jobs-grid">';
+  JOBS.forEach(function(j){html+='<div class="job-item"><h4>'+j.t+'</h4><div class="job-org">'+j.o+' · '+j.l+'</div><div class="job-desc">'+j.d+'</div><a class="job-link" href="'+j.u+'" target="_blank" rel="noopener">Voir l\'offre ↗</a></div>';});
+  html+='</div></div>';
+  html+='<div class="card"><h3>🔍 Sites de recherche</h3><ul>';
+  html+='<li><a href="https://www.novojob.com/" target="_blank">Novojob</a> — Côte d\'Ivoire et Afrique de l\'Ouest</li>';
+  html+='<li><a href="https://www.emploi.ci/" target="_blank">Emploi.ci</a> — portail ivoirien</li>';
+  html+='<li><a href="https://ci.eclozion-opportunities.com/" target="_blank">Eclozion</a> — jeunes diplômés</li>';
+  html+='<li><a href="https://emploi.ci.cari.africa/" target="_blank">Cari Emploi</a> — offres IT/cyber</li>';
+  html+='<li><a href="https://www.linkedin.com/jobs/" target="_blank">LinkedIn Jobs</a> — « cybersecurity Abidjan »</li>';
+  html+='</ul></div>';
+  document.getElementById('app').innerHTML=html;
+}
+
+/* ============================================================
+   CERTS
+   ============================================================ */
+function renderCerts(){
+  var u=user();
+  var d=Object.keys(u.defisDone).filter(function(k){return u.defisDone[k];}).length;
+  var html='<div class="crumb"><a onclick="go(\'home\')">Accueil</a> / Certifications</div>';
+  html+='<div class="card"><h2>🎓 Certifications cyber</h2><p style="color:#94a3b8;font-size:.9em">Certaines certifications ne se débloquent qu\'après un certain nombre de défis. Le badge violet indique le prérequis.</p><div class="tabs">';
+  html+='<div class="tab active" onclick="filterCerts(this,\'all\')">Toutes</div>';
+  html+='<div class="tab" onclick="filterCerts(this,\'free\')">💚 Gratuites</div>';
+  html+='<div class="tab" onclick="filterCerts(this,\'paid\')">💛 Payantes</div>';
+  html+='<div class="tab" onclick="filterCerts(this,\'unlocked\')">🔓 Débloquées</div>';
+  html+='<div class="tab" onclick="filterCerts(this,\'done\')">✅ Obtenues</div>';
+  html+='</div><div class="certs-grid">';
+  CERTS.forEach(function(c){
+    var isD=u.certsDone.indexOf(c.id)!==-1;
+    var unlocked=d>=c.req;
+    html+='<div class="cert-item '+(c.free?'free':'paid')+' '+(isD?'done':'')+'" data-t="'+(c.free?'free':'paid')+'" data-d="'+(isD?'1':'0')+'" data-u="'+(unlocked?'1':'0')+'">';
+    html+='<h4>'+c.nom+'</h4><div class="org">'+c.org+'</div>';
+    html+='<div><span class="tag '+(c.free?'free':'paid')+'">'+(c.free?'GRATUIT':c.prix)+'</span><span class="tag lvl">'+c.niv+'</span><span class="tag lvl">'+c.dur+'</span><span class="tag req">Défi '+c.req+'+</span></div>';
+    html+='<p>'+c.desc+'</p><div class="actions">';
+    html+='<a href="'+c.lien+'" target="_blank" rel="noopener">Voir ↗</a>';
+    html+='<button onclick="toggleCert(\''+c.id+'\')">'+(isD?'✓ Obtenue':'Marquer')+'</button>';
+    html+='</div></div>';
+  });
+  html+='</div></div>';
+  document.getElementById('app').innerHTML=html;
+}
+function filterCerts(el,type){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  document.querySelectorAll('.cert-item').forEach(function(it){
+    var m=false;
+    if(type==='all')m=true;
+    else if(type==='done')m=it.dataset.d==='1';
+    else if(type==='unlocked')m=it.dataset.u==='1';
+    else m=it.dataset.t===type;
+    it.style.display=m?'flex':'none';
+  });
+}
+function toggleCert(id){
+  var u=user();if(!u)return;
+  var i=u.certsDone.indexOf(id);
+  if(i===-1)u.certsDone.push(id);else u.certsDone.splice(i,1);
+  save();renderCerts();
+}
+
+/* ============================================================
+   EXAMENS
+   ============================================================ */
+function renderExamens(){
+  var u=user();if(!u)return;
+  var html='<div class="crumb"><a onclick="go(\'home\')">Accueil</a> / Examens</div>';
+  html+='<div class="card"><h2>📝 Examens Niveau 1</h2><p style="color:#94a3b8;font-size:0.9em">Partiel : défis 1-5 (60 %). Final : défis 1-10 (80 %).</p></div>';
+  ['partiel','final'].forEach(function(type){
+    var e=EXAMENS[type];
+    var passed=u.examens[type];
+    var ready=e.req.every(function(id){return u.defisDone['1_'+id];});
+    var cls='exam-card '+(passed?'passed':ready?'':'locked');
+    html+='<div class="'+cls+'"><h4>'+e.titre+'</h4><p style="font-size:0.85em;color:#cbd5e1">'+e.desc+'</p>';
+    if(passed)html+='<p style="color:#86efac;font-size:0.85em">✅ Réussi le '+passed+'</p><button class="green" onclick="go(\'examen/'+type+'\')">Refaire</button>';
+    else if(ready)html+='<button class="gold" onclick="go(\'examen/'+type+'\')">Passer l\'examen</button>';
+    else html+='<p style="color:#fbbf24;font-size:0.82em">🔒 Termine d\'abord les défis : '+e.req.join(', ')+'</p>';
+    html+='</div>';
+  });
+  document.getElementById('app').innerHTML=html;
+}
+
+function renderExamen(type){
+  var u=user();if(!u)return;
+  var e=EXAMENS[type];
+  if(!e){go('examens');return;}
+  var ready=e.req.every(function(id){return u.defisDone['1_'+id];});
+  if(!ready){alert('Valide d abord les defis requis.');go('examens');return;}
+  var html='<div class="crumb"><a onclick="go(\'examens\')">Examens</a> / '+e.titre+'</div>';
+  html+='<div class="card"><h2>'+e.titre+'</h2><p style="color:#94a3b8;font-size:0.85em">'+e.desc+'</p><div class="quiz">';
+  e.qs.forEach(function(q,i){
+    html+='<div class="q" data-i="'+i+'"><p>Q'+(i+1)+'. '+q.q+'</p>';
+    q.o.forEach(function(opt,j){html+='<label><input type="radio" name="ex'+i+'" value="'+j+'"> '+opt+'</label>';});
+    html+='<div class="exp" id="exexp'+i+'">'+q.e+'</div></div>';
+  });
+  html+='<button onclick="validerExamen(\''+type+'\')">Soumettre l\'examen</button><div id="er"></div></div></div>';
+  document.getElementById('app').innerHTML=html;
+}
+
+function validerExamen(type){
+  var u=user();if(!u)return;
+  var e=EXAMENS[type];if(!e)return;
+  var correct=0;
+  e.qs.forEach(function(q,i){
+    var sel=document.querySelector('input[name="ex'+i+'"]:checked');
+    var labels=document.querySelectorAll('.q[data-i="'+i+'"] label');
+    labels.forEach(function(l){l.classList.remove('ok','ko');});
+    var ex=document.getElementById('exexp'+i);if(ex)ex.style.display='block';
+    if(sel&&parseInt(sel.value)===q.c){correct++;labels[q.c].classList.add('ok');}
+    else{labels[q.c].classList.add('ok');if(sel)labels[parseInt(sel.value)].classList.add('ko');}
+  });
+  var pct=Math.round(correct/e.qs.length*100);
+  var req=type==='final'?80:60;
+  var pass=pct>=req;
+  if(pass){u.examens[type]=new Date().toISOString().slice(0,10);save();}
+  var r=document.getElementById('er');
+  r.className='res '+(pass?'g':'r');
+  r.textContent=pass?'🎉 Réussi ! '+correct+'/'+e.qs.length+' ('+pct+'%)':correct+'/'+e.qs.length+' ('+pct+'%) — Il faut '+req+' %';
+}
+
+/* ============================================================
+   SYNC
+   ============================================================ */
+function renderSync(){
+  var u=user();
+  var code=exportCode();
+  var html='<div class="crumb"><a onclick="go(\'home\')">Accueil</a> / Synchronisation</div>';
+  html+='<div class="card"><h2>🌐 Synchronisation</h2><p style="color:#94a3b8;font-size:.9em">Progression sauvegardée localement. Utilise l\'une des 2 méthodes pour la retrouver sur un autre appareil.</p></div>';
+  html+='<div class="card"><h3>📋 Méthode 1 : Code</h3><div class="sync-box"><label>Ton code</label><textarea id="so" readonly onclick="this.select()">'+code+'</textarea><div class="sync-actions"><button onclick="copyCode()">📋 Copier</button></div></div>';
+  html+='<div class="sync-box"><label>Coller un code</label><textarea id="si" placeholder="Colle ici..."></textarea><div class="sync-actions"><button class="green" onclick="applyCode()">🔄 Restaurer</button></div></div></div>';
+  html+='<div class="card"><h3>💾 Méthode 2 : Fichier</h3><p style="color:#94a3b8;font-size:.9em">Télécharge, envoie par email ou WhatsApp, importe sur l\'autre appareil.</p><div class="sync-actions"><button onclick="dlBackup()">⬇️ Télécharger</button><input type="file" id="bf" accept=".json" style="display:none" onchange="readFile(this)"><button class="sec" onclick="document.getElementById(\'bf\').click()">⬆️ Importer</button></div></div>';
+  html+='<div class="card"><h3>📊 Tes données</h3><table>';
+  if(u){
+    var d=Object.keys(u.defisDone).filter(function(k){return u.defisDone[k];}).length;
+    html+='<tr><td>Défis validés</td><td><b>'+d+'/10</b></td></tr>';
+    html+='<tr><td>Certifications</td><td><b>'+u.certsDone.length+'/'+CERTS.length+'</b></td></tr>';
+    html+='<tr><td>Compte créé le</td><td>'+(u.createdAt||'—')+'</td></tr>';
+  }
+  html+='</table></div>';
+  document.getElementById('app').innerHTML=html;
+}
+function copyCode(){
+  var ta=document.getElementById('so');ta.select();
+  try{document.execCommand('copy');alert('Copié !');}catch(e){alert('Copie manuelle : Ctrl+C');}
+}
+function applyCode(){
+  var c=document.getElementById('si').value;
+  if(!c.trim()){alert('Colle un code.');return;}
+  if(importCode(c)){alert('Restauré !');route();}
+  else alert('Code invalide.');
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+load();
+route();
+</script>
+</body>
+</html>
